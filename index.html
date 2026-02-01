@@ -111,9 +111,6 @@
 
         <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
             
-            <!-- LOGO (If exists) -->
-            <!-- <div class="mb-8 flex justify-center"><img src="..." class="h-16 object-contain" /></div> -->
-
             <!-- Badge / Powerful Statement -->
             <div class="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-white border border-rose/30 text-primary font-bold text-lg md:text-xl mb-8 shadow-sm animate-fade-in">
                 <i data-lucide="sparkles" class="text-rose w-5 h-5"></i>
@@ -487,24 +484,17 @@
         </div>
     </section>
 
-    <!-- Footer Script Container -->
-    <div id="footer-container" class="w-full"></div>
+    <!-- Footer - Script Only -->
+    <div class="w-full text-center py-4 bg-[#FDFBF7] border-t border-[#eee]">
+        <script src="https://rivkaol.github.io/legal-footer.js"></script>
+    </div>
 
     <!-- Scripts Section -->
     <script>
         // 1. Initialize Icons
         lucide.createIcons();
 
-        // 2. Load External Footer
-        document.addEventListener("DOMContentLoaded", () => {
-            const footerContainer = document.getElementById("footer-container");
-            const script = document.createElement("script");
-            script.src = "https://rivkaol.github.io/legal-footer.js";
-            script.async = true;
-            footerContainer.appendChild(script);
-        });
-
-        // 3. Scroll Reveal Animation
+        // 2. Scroll Reveal Animation
         function handleScroll() {
             const reveals = document.querySelectorAll(".reveal");
             const windowHeight = window.innerHeight;
@@ -521,7 +511,7 @@
         window.addEventListener("scroll", handleScroll);
         handleScroll(); // Trigger once on load
 
-        // 4. Accordion Logic
+        // 3. Accordion Logic
         const toggles = document.querySelectorAll('.faq-toggle');
         toggles.forEach(toggle => {
             toggle.addEventListener('click', () => {
@@ -562,7 +552,7 @@
             });
         });
 
-        // 5. Form Validation & Submission
+        // 4. Form Validation & Submission
         const validate = (data) => {
             const errors = {};
             const phoneRegex = /^05\d{8}$/;
