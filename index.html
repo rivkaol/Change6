@@ -1,0 +1,567 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Heart, 
+  Lock, 
+  Calendar, 
+  Clock, 
+  Video, 
+  Check,
+  MapPin,
+  Sparkles,
+  ChevronDown,
+  Plus,
+  AlertCircle
+} from 'lucide-react';
+
+// --- אזור הגדרת תמונות ---
+// הנה הקישור שהרכבתי מהצילום מסך שלך:
+const PROFILE_IMAGE_URL = "https://raw.githubusercontent.com/rivkaol/quiet-gut/main/profile.jpg.jpg"; 
+const LOGO_URL = ""; // אם תרצי להוסיף לוגו בעתיד, הדביקי את הקישור כאן
+
+const LandingPage = () => {
+  const [formData, setFormData] = useState({ fullName: '', email: '', phone: '' });
+  const [errors, setErrors] = useState({}); 
+  const [activeAccordion, setActiveAccordion] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Ref for the footer script container
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const reveals = document.querySelectorAll(".reveal");
+      reveals.forEach((reveal) => {
+        const windowHeight = window.innerHeight;
+        const elementTop = reveal.getBoundingClientRect().top;
+        const elementVisible = 100;
+        if (elementTop < windowHeight - elementVisible) {
+          reveal.classList.add("active");
+        }
+      });
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); 
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Effect to load the external footer script
+  useEffect(() => {
+    if (footerRef.current) {
+      if (!footerRef.current.querySelector('script[src="https://rivkaol.github.io/legal-footer.js"]')) {
+        const script = document.createElement('script');
+        script.src = "https://rivkaol.github.io/legal-footer.js";
+        script.async = true;
+        footerRef.current.appendChild(script);
+      }
+    }
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    const phoneRegex = /^05\d{8}$/; 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!formData.fullName || formData.fullName.trim().length < 2) {
+      newErrors.fullName = 'נא להזין שם מלא (מינימום 2 תווים)';
+    }
+
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      newErrors.email = 'נא להזין כתובת מייל תקינה';
+    }
+
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+    if (!cleanPhone || !phoneRegex.test(cleanPhone)) {
+      newErrors.phone = 'נא להזין מספר נייד תקין (10 ספרות, מתחיל ב-05)';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (validateForm()) {
+      setIsSubmitting(true); 
+      
+      try {
+        const response = await fetch('https://hook.eu2.make.com/8on8l2apnlgc8cfn21tlh4k41vsj61ye', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=9d43f90b-28d9-4095-a5fc-ab6e96318209';
+        } else {
+          alert('אירעה שגיאה בשליחת הטופס. אנא נסי שוב.');
+          setIsSubmitting(false);
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('אירעה שגיאה בשליחת הטופס. אנא נסי שוב.');
+        setIsSubmitting(false);
+      }
+    } else {
+      console.log('Validation Failed');
+    }
+  };
+
+  const toggleAccordion = (index) => {
+    setActiveAccordion(activeAccordion === index ? null : index);
+  };
+
+  const theme = {
+    colors: {
+      primary: '#1B4D3E',      
+      accent: '#D4AF37',       
+      rose: '#D68C85',         
+      roseLight: '#FFF3F2',    
+      bgCream: '#FDFBF7',      
+      textDark: '#333333',     
+      textSoft: '#555555',     
+      white: '#FFFFFF'
+    }
+  };
+
+  return (
+    <div dir="rtl" className="min-h-screen font-sans overflow-x-hidden text-[#333]" style={{ backgroundColor: theme.colors.bgCream }}>
+      
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+          body { font-family: 'Rubik', sans-serif; }
+          
+          .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+          .reveal.active { opacity: 1; transform: translateY(0); }
+          
+          .hero-bg {
+             background: radial-gradient(circle at top, ${theme.colors.roseLight} 0%, #FDFBF7 60%);
+          }
+          
+          /* אנימציה עדינה לבועת המחיר */
+          .price-badge {
+            animation: float 3s ease-in-out infinite;
+          }
+          @keyframes float {
+            0% { transform: translateY(0px) rotate(12deg); }
+            50% { transform: translateY(-5px) rotate(12deg); }
+            100% { transform: translateY(0px) rotate(12deg); }
+          }
+        `}
+      </style>
+
+      {/* --- HERO SECTION --- */}
+      <header className="relative pt-12 pb-24 hero-bg overflow-hidden">
+        {/* Abstract "Thread" Decorations */}
+        <div className="absolute top-0 left-10 h-full w-[1px] bg-gradient-to-b from-transparent via-[#D68C85]/30 to-transparent"></div>
+        <div className="absolute top-0 right-10 h-full w-[1px] bg-gradient-to-b from-transparent via-[#D68C85]/30 to-transparent"></div>
+        <div className="absolute top-20 right-0 w-[300px] h-[300px] bg-[#D68C85] opacity-[0.05] rounded-full blur-3xl"></div>
+
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
+          
+          {/* LOGO AREA (Only shows if LOGO_URL has content) */}
+          {LOGO_URL && (
+            <div className="mb-8 flex justify-center">
+              <img src={LOGO_URL} alt="לוגו" className="h-16 md:h-20 object-contain" />
+            </div>
+          )}
+
+          {/* Badge / Powerful Statement */}
+          <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-white border border-[#D68C85]/30 text-[#1B4D3E] font-bold text-lg md:text-xl mb-8 shadow-sm animate-fade-in">
+            <Sparkles size={20} className="text-[#D68C85]" />
+            הדרכת עומק מרתקת בשידור חי
+            <Sparkles size={20} className="text-[#D68C85]" />
+          </div>
+
+          {/* 1. Main Title */}
+          <h1 className="text-4xl md:text-6xl font-bold leading-[1.2] tracking-tight text-[#1B4D3E] mb-6">
+            למה כל כך <span className="text-[#D68C85] relative">
+              קשה להשתנות
+              <svg className="absolute w-full h-3 -bottom-2 left-0 text-[#D68C85]/40" viewBox="0 0 100 10" preserveAspectRatio="none">
+                <path d="M0 5 Q 50 12 100 5" stroke="currentColor" strokeWidth="3" fill="none" />
+              </svg>
+            </span>
+            <br />
+            גם כשאת באמת רוצה?
+          </h1>
+
+          {/* 2. Short Connecting Sentence */}
+          <p className="text-xl md:text-2xl text-[#555] mb-12 max-w-2xl mx-auto leading-relaxed">
+             המשקל עולה ויורד, הכאבים חוזרים, ואת לא מוותרת?<br className="hidden md:block"/>
+             בואי נבין את הסיבה העמוקה לדפוסים ונלמד לשזור חוטים חדשים.
+          </p>
+
+          {/* 4. FORM with Integrated Details */}
+          <div className="max-w-xl mx-auto relative mb-20">
+            <div className="absolute inset-0 bg-[#D68C85] rounded-[30px] transform rotate-1 opacity-10"></div>
+            <div className="relative bg-white p-8 md:p-10 rounded-[30px] shadow-[0_20px_40px_rgba(27,77,62,0.06)] border border-[#eee]">
+              
+              {/* Form Header with Dry Details - INCREASED SIZE */}
+              <div className="text-center mb-8 border-b border-gray-100 pb-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#1B4D3E] mb-6">הירשמי עכשיו להדרכה</h3>
+                
+                <div className="flex flex-col gap-3 text-xl md:text-2xl text-[#555] font-medium">
+                  <div className="flex items-center justify-center gap-2">
+                    <Calendar size={24} className="text-[#D68C85]" />
+                    <span>יום רביעי 19.02 | 20:00</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Video size={24} className="text-[#D68C85]" />
+                    <span>שידור חי אונליין מהנוחות של הבית</span>
+                  </div>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4 text-right" noValidate>
+                <div>
+                  <label className="block text-[#1B4D3E] font-medium mb-1 pr-1">שם מלא</label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    className={`w-full px-5 py-3 bg-[#F9F9F9] border rounded-xl text-lg focus:outline-none focus:ring-1 transition-all ${errors.fullName ? 'border-red-500 ring-red-500 focus:border-red-500' : 'border-[#E1E1E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]'}`}
+                    placeholder=""
+                  />
+                  {errors.fullName && <p className="text-red-500 text-sm mt-1 flex items-center gap-1"><AlertCircle size={14}/> {errors.fullName}</p>}
+                </div>
+                
+                <div>
+                  <label className="block text-[#1B4D3E] font-medium mb-1 pr-1">כתובת מייל</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full px-5 py-3 bg-[#F9F9F9] border rounded-xl text-lg focus:outline-none focus:ring-1 transition-all ${errors.email ? 'border-red-500 ring-red-500 focus:border-red-500' : 'border-[#E1E1E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]'}`}
+                    placeholder=""
+                  />
+                  {errors.email && <p className="text-red-500 text-sm mt-1 flex items-center gap-1"><AlertCircle size={14}/> {errors.email}</p>}
+                </div>
+                
+                <div>
+                  <label className="block text-[#1B4D3E] font-medium mb-1 pr-1">טלפון נייד</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={`w-full px-5 py-3 bg-[#F9F9F9] border rounded-xl text-lg focus:outline-none focus:ring-1 transition-all ${errors.phone ? 'border-red-500 ring-red-500 focus:border-red-500' : 'border-[#E1E1E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]'}`}
+                    placeholder=""
+                  />
+                   {errors.phone && <p className="text-red-500 text-sm mt-1 flex items-center gap-1"><AlertCircle size={14}/> {errors.phone}</p>}
+                </div>
+                
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full py-4 mt-2 text-white text-xl font-bold rounded-full shadow-lg transition-all duration-300 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#1B4D3E] hover:bg-[#153e32] hover:shadow-xl hover:-translate-y-1'}`}
+                >
+                  {isSubmitting ? 'שולח...' : 'שמרי לי מקום בהדרכה'}
+                </button>
+              </form>
+              
+              <div className="mt-4 text-center text-sm text-[#888] flex items-center justify-center gap-2">
+                <Lock size={14} />
+                פרטייך חסויים ומאובטחים
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Emotional Connection - Styled Personal Note */}
+          <div className="max-w-3xl mx-auto relative">
+             <div className="bg-white/90 backdrop-blur-sm p-8 md:p-12 rounded-[30px] shadow-[0_10px_40px_rgba(214,140,133,0.15)] border border-[#D68C85]/20 text-center relative z-10">
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-16 h-1 bg-[#D68C85]/30 rounded-full"></div>
+                <div className="absolute -left-4 top-10 text-6xl text-[#D68C85] opacity-10 font-serif leading-none hidden md:block">"</div>
+                
+                <h3 className="text-2xl md:text-3xl font-bold text-[#1B4D3E] mb-6">למה זה מרגיש תקוע?</h3>
+
+                <div className="space-y-5 text-xl md:text-2xl leading-relaxed text-[#555]">
+                   <p>
+                     את לא מוותרת. ניסית שיטות, עשית תהליכים, למדת, התאמצת.<br/>
+                     ובכל זאת – <span className="font-bold text-[#1B4D3E]">משהו בפנים מחזיר אותך שוב ושוב לאותה נקודה.</span>
+                   </p>
+                   <p>
+                     הסיבה עמוקה יותר ממה שחשבת והיא לא קשורה לכוח רצון.
+                   </p>
+                   <p className="font-medium text-[#1B4D3E] pt-2">
+                     במפגש הזה נתחיל להבין איך נוצרים הדפוסים שמנהלים אותנו ואיך אפשר, בעדינות, להתחיל לשנות אותם.
+                   </p>
+                </div>
+             </div>
+             
+             <div className="absolute -bottom-4 -right-4 w-full h-full bg-[#D68C85]/5 rounded-[30px] -z-10 transform rotate-1"></div>
+          </div>
+
+        </div>
+      </header>
+
+      {/* --- IDENTIFICATION SECTION --- */}
+      <section className="py-24 bg-white reveal">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1B4D3E] mb-6 inline-block relative">
+              יכול להיות שאת מזהה את עצמך כאן?
+              <span className="block h-1 w-1/2 bg-[#D68C85] mx-auto mt-4 rounded-full"></span>
+            </h2>
+          </div>
+
+          <div className="grid gap-8">
+            {[
+              "את אומרת לעצמך ש״הפעם זה באמת יהיה אחרת״, אבל אחרי תקופה הכול חוזר למסלול הישן.",
+              "עשית דיאטות, שינית תפריטים, והמשקל – תמיד מוצא את הדרך חזרה.",
+              "יש בך תחושה שמגיע לך יותר שקט, יותר קלות, אבל משהו בפנים עוצר אותך מלהתקדם.",
+              "גם במערכות יחסים חוזרים אותם דפוסים. עם הילדים, עם בן הזוג, עם עצמך."
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-6 p-6 rounded-2xl bg-[#FDFBF7] border border-[#f0f0f0] hover:border-[#D68C85]/30 transition-colors">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#FFF3F2] flex items-center justify-center text-[#D68C85] mt-1 shadow-sm">
+                  <Check size={20} strokeWidth={3} />
+                </div>
+                <p className="text-xl text-[#444] leading-relaxed pt-1">{item}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-16 text-center">
+            <div className="inline-block p-10 bg-[#1B4D3E] rounded-[30px] text-white shadow-xl relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-10 -mt-10"></div>
+               <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#D4AF37] opacity-10 rounded-full -ml-10 -mb-10"></div>
+               <h3 className="text-2xl font-bold mb-3 text-[#D4AF37]">חשוב לדעת</h3>
+               <p className="text-xl leading-relaxed max-w-2xl">
+                 זה לא כי את לא משתדלת. וזה לא כי את חלשה.<br/>
+                 <span className="font-bold text-2xl border-b-2 border-[#D4AF37]/50 pb-1 inline-block mt-2">יש פשוט מקום אחר שבו צריך לעבוד.</span>
+               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- DISCOVERY / FEATURES --- */}
+      <section className="py-24 bg-[#FDFBF7] reveal">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1B4D3E] mb-4">שזירת חוטים חדשים</h2>
+            <p className="text-xl text-[#666] max-w-2xl mx-auto">
+              רוב ההחלטות שלנו נובעות מתפיסות שנבנו לאורך שנים. חוט ועוד חוט, עד שנוצר דפוס.
+              במפגש הזה נלמד לשזור אחרת.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: MapPin,
+                title: "משל ה GPS",
+                text: "למה אנחנו מגיעות תמיד לאותו יעד, גם כשנדמה ששינינו דרך? נבין את המנגנון הפנימי שמנווט אותנו."
+              },
+              {
+                icon: Heart,
+                title: "השפעה על הגוף",
+                text: "איך תפיסות פנימיות משפיעות פיזית על המשקל, הכאבים והבריאות הכללית שלך (זה מדעי)."
+              },
+              {
+                icon: Sparkles,
+                title: "תהליך השינוי",
+                text: "היכרות עם תהליך עדין של יצירת נתיבים חדשים במוח, בלי להציף ובלי לפתוח פצעים ישנים."
+              }
+            ].map((card, i) => (
+              <div 
+                key={i}
+                className="bg-white p-10 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-[#eee] hover:border-[#D68C85] transition-all duration-300 group"
+              >
+                <div className="w-16 h-16 bg-[#FFF3F2] rounded-2xl flex items-center justify-center text-[#D68C85] mb-6 group-hover:bg-[#D68C85] group-hover:text-white transition-colors">
+                  <card.icon size={32} />
+                </div>
+                <h3 className="text-2xl font-bold text-[#1B4D3E] mb-4">{card.title}</h3>
+                <p className="text-lg text-[#555] leading-relaxed">
+                  {card.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- ABOUT --- */}
+      <section className="py-24 bg-white overflow-hidden reveal">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+            
+            <div className="relative flex-shrink-0">
+              <div className="w-[300px] h-[300px] md:w-[380px] md:h-[380px] relative z-10">
+                {/* PROFILE IMAGE - Logic to use URL or placeholder */}
+                <div className="absolute inset-0 rounded-full border-[10px] border-white shadow-2xl overflow-hidden bg-[#eee] flex items-center justify-center">
+                  {PROFILE_IMAGE_URL ? (
+                    <img src={PROFILE_IMAGE_URL} alt="רבקה" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-gray-400">תמונת רבקה</span>
+                  )}
+                </div>
+              </div>
+              <div className="absolute top-10 -right-10 w-32 h-32 bg-[#D4AF37] opacity-20 rounded-full blur-2xl"></div>
+              <div className="absolute bottom-0 -left-6 w-40 h-40 bg-[#D68C85] opacity-20 rounded-full blur-2xl"></div>
+            </div>
+
+            <div className="flex-1 text-center md:text-right">
+              <h2 className="text-4xl font-bold text-[#1B4D3E] mb-6">נעים להכיר, אני רבקה</h2>
+              
+              <div className="space-y-6 text-xl leading-relaxed text-[#444]">
+                <p>
+                  כבר יותר מ-12 שנה אני מלווה נשים חכמות, מסורות ועמוקות,
+                  שמרגישות שהן עושות הכול נכון ועדיין תקועות באותם דפוסים.
+                </p>
+                <p>
+                  עברתי את הדרך הזו גם בעצמי. פירקתי חוטים ישנים ושזרתי חדשים – לאט, בעדינות, בקצב שמתאים לחיים האמיתיים.
+                </p>
+                <p>
+                  העבודה הזו לא מבטיחה ניסים.
+                  אבל היא כן יוצרת <strong>שינוי עמוק שנשאר.</strong>
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* --- FAQ SECTION --- */}
+      <section className="py-24 bg-[#FDFBF7] reveal">
+        <div className="max-w-3xl mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1B4D3E] mb-4 text-center leading-tight">
+            אל תפספסי את ההזדמנות<br/>לשנות את החוטים שמנהלים אותך
+          </h2>
+          <p className="text-xl text-[#666] mb-12 text-center">
+            הצטרפי אלינו לערב של גילוי, הבנה ושקט פנימי.
+          </p>
+          
+          <div className="space-y-6">
+            {[
+              { q: "האם יהיה זמן לשאלות?", a: "כן, בסיום הוובינר אקדיש זמן לענות על שאלות אישיות." },
+              { q: "האם מקבלים הקלטה?", a: "כן! ההקלטה תישלח למייל לנרשמות בתוך 24 שעות מסיום המפגש." },
+              { q: "למי המפגש הכי מתאים?", a: "לנשים בגילאי 40+ שמרגישות תקיעות בנושאי משקל, בריאות או דפוסים רגשיים חוזרים." },
+              { q: "מתי המפגש מתקיים?", a: "ביום רביעי ה-19/2 בשעה 20:00 בערב, בשידור חי בזום." }
+            ].map((item, i) => (
+              <div key={i} className="bg-white/60 hover:bg-white rounded-2xl shadow-sm transition-all duration-300">
+                <button 
+                  onClick={() => toggleAccordion(i)}
+                  className="w-full flex items-center justify-between p-6 text-right font-medium text-xl text-[#1B4D3E] focus:outline-none"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className={`w-2 h-2 rounded-full ${activeAccordion === i ? 'bg-[#D68C85]' : 'bg-[#D4AF37]'}`}></span>
+                    {item.q}
+                  </span>
+                  {activeAccordion === i ? <ChevronDown className="text-[#D68C85]" /> : <Plus className="text-[#D4AF37]" />}
+                </button>
+                <div 
+                  className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${activeAccordion === i ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}
+                >
+                  <div className="p-6 pt-0 text-lg text-[#555] pr-11">
+                    {item.a}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- BOTTOM CTA --- */}
+      <section className="py-24 bg-white relative reveal overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#FDFBF7] to-white -z-10"></div>
+
+        <div className="max-w-xl mx-auto px-6 relative">
+          
+          {/* Price Bubble Sticker */}
+          <div className="absolute -top-6 -right-6 md:-right-12 z-20 price-badge">
+            <div className="bg-[#1B4D3E] text-white w-24 h-24 rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-white transform rotate-12">
+               <span className="text-xs font-light">רק</span>
+               <span className="text-2xl font-bold leading-none">37₪</span>
+               <span className="text-xs font-light">בלבד</span>
+            </div>
+          </div>
+
+          <div className="relative bg-white p-8 md:p-12 rounded-[30px] shadow-[0_25px_50px_rgba(27,77,62,0.1)] border border-[#eee]">
+            <div className="text-center mb-8">
+               <h3 className="text-3xl font-bold text-[#1B4D3E] mb-2">אני רוצה להצטרף</h3>
+               <p className="text-[#666]">מלאי פרטים ונתראה במפגש</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4 text-right" noValidate>
+                <div>
+                  <label className="block text-[#1B4D3E] font-medium mb-1 pr-1">שם מלא</label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    className={`w-full px-5 py-3 bg-[#F9F9F9] border rounded-xl text-lg focus:outline-none focus:ring-1 transition-all ${errors.fullName ? 'border-red-500 ring-red-500 focus:border-red-500' : 'border-[#E1E1E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]'}`}
+                    placeholder=""
+                    required
+                  />
+                  {errors.fullName && <p className="text-red-500 text-sm mt-1 flex items-center gap-1"><AlertCircle size={14}/> {errors.fullName}</p>}
+                </div>
+                <div>
+                  <label className="block text-[#1B4D3E] font-medium mb-1 pr-1">כתובת מייל</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full px-5 py-3 bg-[#F9F9F9] border rounded-xl text-lg focus:outline-none focus:ring-1 transition-all ${errors.email ? 'border-red-500 ring-red-500 focus:border-red-500' : 'border-[#E1E1E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]'}`}
+                    placeholder=""
+                    required
+                  />
+                  {errors.email && <p className="text-red-500 text-sm mt-1 flex items-center gap-1"><AlertCircle size={14}/> {errors.email}</p>}
+                </div>
+                <div>
+                  <label className="block text-[#1B4D3E] font-medium mb-1 pr-1">טלפון נייד</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={`w-full px-5 py-3 bg-[#F9F9F9] border rounded-xl text-lg focus:outline-none focus:ring-1 transition-all ${errors.phone ? 'border-red-500 ring-red-500 focus:border-red-500' : 'border-[#E1E1E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]'}`}
+                    placeholder=""
+                    required
+                  />
+                  {errors.phone && <p className="text-red-500 text-sm mt-1 flex items-center gap-1"><AlertCircle size={14}/> {errors.phone}</p>}
+                </div>
+                
+                <button
+                  type="submit"
+                  className="w-full py-4 mt-4 bg-[#D4AF37] hover:bg-[#C5A028] text-white text-xl font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                >
+                  מעבר לתשלום מאובטח
+                </button>
+            </form>
+            
+            <div className="mt-6 text-center text-sm text-[#888] flex items-center justify-center gap-2">
+               <Lock size={14} />
+               האתר מאובטח בתקן PCI
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Script Container */}
+      <div ref={footerRef} className="w-full"></div>
+
+    </div>
+  );
+};
+
+export default LandingPage;
