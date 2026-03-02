@@ -33,9 +33,9 @@
                         sans: ['Rubik', 'sans-serif'],
                     },
                     boxShadow: {
-                        'soft': '0 15px 30px rgba(27,77,62,0.04)',
-                        'card': '0 10px 30px rgba(0,0,0,0.03)',
-                        'gold': '0 10px 20px rgba(212,175,55,0.15)'
+                        'soft': '0 10px 25px rgba(27,77,62,0.03)',
+                        'card': '0 4px 20px rgba(0,0,0,0.02)',
+                        'gold': '0 8px 20px rgba(212,175,55,0.12)'
                     }
                 }
             }
@@ -43,27 +43,29 @@
     </script>
 
     <style>
-        /* מניעת תזוזות מיותרות במגע */
+        /* מניעת תזוזות מיותרות במגע ואופטימיזציה למובייל */
         html, body {
             max-width: 100%;
             overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
             touch-action: manipulation;
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: #FDFBF7;
             color: #333333;
+            -webkit-font-smoothing: antialiased;
         }
 
         .hero-bg {
-            background: radial-gradient(circle at top, #FFF3F2 0%, #FDFBF7 70%);
+            background: radial-gradient(circle at top, #FFF3F2 0%, #FDFBF7 75%);
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
             will-change: transform, opacity;
         }
         .reveal.active {
@@ -71,47 +73,37 @@
             transform: translateY(0);
         }
 
-        /* אנימציה יציבה למניעת ריקוד של הדף */
+        /* אנימציה יציבה ללא השפעה על פריסת הדף */
         .price-badge {
             animation: float 4s ease-in-out infinite;
         }
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(12deg); }
-            50% { transform: translateY(-5px) rotate(12deg); }
+            50% { transform: translateY(-6px) rotate(12deg); }
         }
 
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* עיצוב נקי לשדות הקלט */
+        /* עיצוב שדות טופס "סגורים" ונקיים */
         .custom-input {
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            border-bottom: 2px solid #E5E7EB;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            background: transparent !important;
-            border-radius: 0;
+            transition: all 0.2s ease;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF !important;
+            border-radius: 12px;
         }
         .custom-input:focus {
             outline: none;
             border-color: #D4AF37;
-            box-shadow: none;
+            box-shadow: 0 0 0 2px rgba(212,175,55,0.1);
         }
         .custom-input.error {
             border-color: #ef4444;
+            background-color: #fffafb !important;
         }
 
         .curvy-underline {
-            background: linear-gradient(120deg, rgba(214,140,133,0.15) 0%, rgba(214,140,133,0.15) 100%);
+            background: linear-gradient(120deg, rgba(214,140,133,0.2) 0%, rgba(214,140,133,0.2) 100%);
             background-repeat: no-repeat;
             background-size: 100% 0.3em;
-            background-position: 0 92%;
+            background-position: 0 95%;
         }
 
         /* שדה למניעת ספאם */
@@ -119,83 +111,88 @@
             display: none !important;
             visibility: hidden !important;
         }
+
+        /* מניעת אפקט הריקוד בלחיצה על כפתורים במובייל */
+        button:active {
+            transform: scale(0.98);
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- ANNOUNCEMENT BAR -->
-    <div class="bg-primary text-white text-center py-3 px-4 text-sm md:text-base font-medium">
-        בשבועות כאלה, אנחנו צריכות יותר מתמיד את הכלים שמחזיקים אותנו מבפנים
+    <div class="bg-primary text-white text-center py-2.5 px-4 text-xs md:text-base font-medium">
+        בשבועות כאלה, אנחנו צריכות את הכלים שמחזיקים אותנו מבפנים
     </div>
 
     <!-- HERO SECTION -->
-    <header class="relative pt-12 pb-20 hero-bg overflow-hidden border-b border-rose/10">
-        <div class="absolute top-0 left-10 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/20 to-transparent"></div>
-        <div class="absolute top-0 right-10 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/20 to-transparent"></div>
+    <header class="relative pt-8 pb-16 md:pt-16 md:pb-24 hero-bg overflow-hidden border-b border-rose/5">
+        <div class="absolute top-0 left-6 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/10 to-transparent"></div>
+        <div class="absolute top-0 right-6 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/10 to-transparent"></div>
 
-        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+        <div class="max-w-4xl mx-auto px-5 relative z-10 text-center">
             
-            <div class="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-white border border-rose/30 text-primary font-bold text-lg mb-10 shadow-sm animate-fade-in">
+            <div class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white border border-rose/20 text-primary font-bold text-base md:text-lg mb-8 shadow-sm animate-fade-in">
                 הדרכת עומק מרתקת בשידור חי | יום רביעי 18.03
             </div>
 
-            <h1 class="text-4xl md:text-6xl font-black leading-[1.15] tracking-tight text-primary mb-8 animate-fade-in">
+            <h1 class="text-3xl md:text-6xl font-black leading-tight tracking-tight text-primary mb-6 animate-fade-in">
                 כשהכל מסביב מטלטל –<br />
                 <span class="text-rose curvy-underline">איך נשארים יציבות מבפנים?</span>
             </h1>
 
-            <p class="text-xl md:text-2xl text-textSoft mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in">
+            <p class="text-lg md:text-2xl text-textSoft mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in">
                 יש כלי שגדולי ישראל לימדו אותנו לפני מאות שנים. כלי שמשנה את הקוד בתת-ההכרה – ומחזיר אותנו לעצמנו, גם בימים הכי קשים.
             </p>
 
-            <div class="max-w-xl mx-auto mb-16 reveal">
-                <div class="bg-white border-r-4 border-accent p-8 rounded-2xl shadow-soft text-right">
-                    <p class="text-2xl font-bold text-primary mb-2">חשבי טוב – ויהיה טוב</p>
-                    <p class="text-base text-textSoft">הרבי מלובביץ' – עיקרון שמשנה חיים, בימים קשים ובימים רגילים</p>
+            <div class="max-w-lg mx-auto mb-12 reveal">
+                <div class="bg-white border-r-4 border-accent p-6 md:p-8 rounded-2xl shadow-soft text-right">
+                    <p class="text-xl md:text-2xl font-bold text-primary mb-1">חשבי טוב – ויהיה טוב</p>
+                    <p class="text-sm md:text-base text-textSoft">הרבי מלובביץ' – עיקרון שמשנה חיים</p>
                 </div>
             </div>
 
-            <div class="flex flex-wrap justify-center gap-8 text-lg text-textSoft font-medium mb-12">
-                <div class="flex items-center gap-2"><i data-lucide="calendar" class="text-rose w-5 h-5"></i> יום רביעי 18.3 | 20:00</div>
-                <div class="flex items-center gap-2"><i data-lucide="video" class="text-rose w-5 h-5"></i> שידור חי בזום מהבית</div>
-                <div class="flex items-center gap-2"><i data-lucide="clapperboard" class="text-rose w-5 h-5"></i> הקלטה נשארת אצלך</div>
+            <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 text-base md:text-lg text-textSoft font-medium mb-12">
+                <div class="flex items-center justify-center gap-2"><i data-lucide="calendar" class="text-rose w-5 h-5"></i> יום רביעי 18.3 | 20:00</div>
+                <div class="flex items-center justify-center gap-2"><i data-lucide="video" class="text-rose w-5 h-5"></i> שידור חי בזום מהבית</div>
+                <div class="flex items-center justify-center gap-2"><i data-lucide="clapperboard" class="text-rose w-5 h-5"></i> הקלטה נשארת אצלך</div>
             </div>
 
             <!-- TOP FORM CARD -->
-            <div class="max-w-lg mx-auto relative mb-16 reveal">
-                <div class="relative bg-white p-8 md:p-12 rounded-[30px] shadow-soft border border-gray-100">
+            <div id="form-top-container" class="max-w-md mx-auto relative mb-16 reveal">
+                <div class="relative bg-white p-6 md:p-10 rounded-[32px] shadow-soft border border-gray-100">
                     
-                    <div class="text-center mb-10 border-b border-gray-50 pb-6">
-                        <h3 class="text-2xl font-bold text-primary mb-2">שמרי לי מקום בהדרכה</h3>
-                        <p class="text-sm text-textSoft">הירשמי עכשיו לקבלת גישה לשידור</p>
+                    <div class="text-center mb-8 border-b border-gray-50 pb-5">
+                        <h3 class="text-xl md:text-2xl font-bold text-primary mb-1">שמרי לי מקום בהדרכה</h3>
+                        <p class="text-xs md:text-sm text-textSoft">הירשמי עכשיו לקבלת גישה לשידור</p>
                     </div>
 
-                    <form id="formTop" class="space-y-6 text-right">
+                    <form id="formTop" class="space-y-5 text-right">
                         <!-- Honeypot -->
                         <div class="hp-field">
                             <input type="text" name="b_hp_field" tabindex="-1" autocomplete="off">
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">שם מלא <span class="text-rose">*</span></label>
-                            <input type="text" name="fullName" class="custom-input w-full px-1 py-3 text-lg" placeholder="" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">שם מלא <span class="text-rose">*</span></label>
+                            <input type="text" name="fullName" class="custom-input w-full px-4 py-3.5 text-base" placeholder="השם המלא שלך" required>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">כתובת מייל <span class="text-rose">*</span></label>
-                            <input type="email" name="email" class="custom-input w-full px-1 py-3 text-lg" placeholder="" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">כתובת מייל <span class="text-rose">*</span></label>
+                            <input type="email" name="email" class="custom-input w-full px-4 py-3.5 text-base" placeholder="המייל שלך" required>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">טלפון נייד <span class="text-rose">*</span></label>
-                            <input type="tel" name="phone" class="custom-input w-full px-1 py-3 text-lg" placeholder="" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">טלפון נייד <span class="text-rose">*</span></label>
+                            <input type="tel" name="phone" class="custom-input w-full px-4 py-3.5 text-base" placeholder="05X-XXXXXXX" required>
                         </div>
                         
-                        <button type="submit" class="submit-btn w-full py-5 mt-4 bg-accent hover:bg-[#C5A028] text-white text-xl font-bold rounded-full shadow-lg transition-all active:scale-95">
+                        <button type="submit" class="submit-btn w-full py-4.5 mt-2 bg-accent hover:bg-[#C5A028] text-white text-lg md:text-xl font-bold rounded-full shadow-lg transition-all">
                             הצטרפי למועדון ב-29₪ בלבד
                         </button>
                     </form>
                     
                     <div class="mt-6 text-center text-xs text-gray-400">
-                        רוצה רק את ההדרכה? <a href="#register" class="text-rose font-bold underline">לחצי כאן – 37₪</a>
+                        רוצה רק את ההדרכה? <a href="https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=b93cc575-6cbb-4e39-a511-4c3183c4c000" class="text-rose font-bold underline">לחצי כאן – 37₪</a>
                     </div>
                 </div>
             </div>
@@ -203,84 +200,72 @@
     </header>
 
     <!-- PAIN POINTS SECTION -->
-    <section class="py-24 bg-white reveal">
+    <section class="py-16 md:py-24 bg-white reveal">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-6">יכול להיות שאת מזהה את עצמך כאן?</h2>
-                <div class="h-1 w-24 bg-rose mx-auto rounded-full"></div>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-2xl md:text-4xl font-bold text-primary mb-4 leading-tight">יכול להיות שאת מזהה את עצמך כאן?</h2>
+                <div class="h-1 w-16 bg-rose mx-auto rounded-full"></div>
             </div>
 
-            <div class="grid gap-6">
-                <div class="flex items-start gap-6 p-6 rounded-3xl bg-bgCream border border-roseLight">
-                    <i data-lucide="heart-pulse" class="text-rose w-6 h-6 mt-1 flex-shrink-0"></i>
-                    <p class="text-xl text-textSoft leading-relaxed font-medium">הלב כבד לאחרונה – מהחדשות, מהחרדה – ואת מחפשת איך להתייצב מבפנים</p>
+            <div class="grid gap-4 md:gap-6">
+                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
+                    <i data-lucide="heart-pulse" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
+                    <p class="text-lg text-textSoft leading-relaxed font-medium">הלב כבד לאחרונה – מהחדשות, מהחרדה – ואת מחפשת איך להתייצב מבפנים</p>
                 </div>
-                <div class="flex items-start gap-6 p-6 rounded-3xl bg-bgCream border border-roseLight">
-                    <i data-lucide="cloud-rain" class="text-rose w-6 h-6 mt-1 flex-shrink-0"></i>
-                    <p class="text-xl text-textSoft leading-relaxed font-medium">ניסית לחשוב חיובי, אמרת לעצמך "הכל יהיה בסדר" – אבל משהו בפנים לא האמין לזה</p>
+                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
+                    <i data-lucide="refresh-cw" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
+                    <p class="text-lg text-textSoft leading-relaxed font-medium">עשית דיאטה, ירדת, חזרת. שינית הרגלים, החזקת שבועיים, חזרת לאותו מקום</p>
                 </div>
-                <div class="flex items-start gap-6 p-6 rounded-3xl bg-bgCream border border-roseLight">
-                    <i data-lucide="refresh-cw" class="text-rose w-6 h-6 mt-1 flex-shrink-0"></i>
-                    <p class="text-xl text-textSoft leading-relaxed font-medium">עשית דיאטה, ירדת, חזרת. שינית הרגלים, החזקת שבועיים, חזרת לאותו מקום</p>
-                </div>
-                <div class="flex items-start gap-6 p-6 rounded-3xl bg-bgCream border border-roseLight">
-                    <i data-lucide="thermometer" class="text-rose w-6 h-6 mt-1 flex-shrink-0"></i>
-                    <p class="text-xl text-textSoft leading-relaxed font-medium">יש כאבים, עייפות, כבדות – ואת מרגישה שזה קשור לעומק יותר מרק פיזי</p>
-                </div>
-                <div class="flex items-start gap-6 p-6 rounded-3xl bg-bgCream border border-roseLight">
-                    <i data-lucide="users" class="text-rose w-6 h-6 mt-1 flex-shrink-0"></i>
-                    <p class="text-xl text-textSoft leading-relaxed font-medium">הקשר עם הילדים הבוגרים לא מה שרצית – ואת לא מצליחה להבין למה</p>
-                </div>
-                <div class="flex items-start gap-6 p-6 rounded-3xl bg-bgCream border border-roseLight">
-                    <i data-lucide="moon" class="text-rose w-6 h-6 mt-1 flex-shrink-0"></i>
-                    <p class="text-xl text-textSoft leading-relaxed font-medium">תחושה שבגיל שלך – כבר מאוחר מדי לשנות, ללמוד, להתחיל מחדש</p>
+                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
+                    <i data-lucide="users" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
+                    <p class="text-lg text-textSoft leading-relaxed font-medium">הקשר עם הילדים הבוגרים לא מה שרצית – ואת לא מצליחה להבין למה</p>
                 </div>
             </div>
             
-            <div class="mt-16 p-8 bg-roseLight rounded-3xl border-r-4 border-rose">
-                <p class="text-xl md:text-2xl leading-relaxed text-primary">
+            <div class="mt-12 p-6 md:p-8 bg-roseLight rounded-2xl border-r-4 border-rose">
+                <p class="text-lg md:text-2xl leading-relaxed text-primary">
                     <strong>זה לא חוסר רצון. זה לא חולשה.</strong><br/>
-                    יש פשוט קוד ישן שיושב בתת-ההכרה ומחזיק אותך שם – וכדי לשנות אותו, צריך לדעת בדיוק איך.
+                    יש פשוט קוד ישן שיושב בתת-ההכרה ומחזיק אותך שם.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- WHAT YOU'LL LEARN -->
-    <section class="py-24 bg-bgCream reveal border-y border-roseLight">
+    <section class="py-16 md:py-24 bg-bgCream reveal border-y border-roseLight">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">בהדרכה הזו את תלמדי:</h2>
-                <p class="text-xl text-textSoft max-w-2xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-2xl md:text-4xl font-bold text-primary mb-4">בהדרכה הזו את תלמדי:</h2>
+                <p class="text-lg text-textSoft max-w-2xl mx-auto">
                     כלים מעשיים המבוססים על חוכמת ישראל ומדע המוח
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-10 rounded-[40px] shadow-card border border-gray-100 group transition-all">
-                    <div class="w-16 h-16 bg-roseLight rounded-2xl flex items-center justify-center text-rose mb-8 group-hover:bg-rose group-hover:text-white transition-all">
-                        <i data-lucide="brain" class="w-8 h-8"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all">
+                    <div class="w-14 h-14 bg-roseLight rounded-xl flex items-center justify-center text-rose mb-6">
+                        <i data-lucide="brain" class="w-7 h-7"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-primary mb-4">הסוד שחז"ל גילו לפנינו</h3>
-                    <p class="text-lg text-textSoft font-light">
+                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">הסוד שבשינון</h3>
+                    <p class="text-base md:text-lg text-textSoft font-light">
                         למה דווקא שלוש פעמים ביום, שלושים יום – ואיך זה משנה קוד עמוק במוח.
                     </p>
                 </div>
-                <div class="bg-white p-10 rounded-[40px] shadow-card border border-gray-100 group transition-all">
-                    <div class="w-16 h-16 bg-roseLight rounded-2xl flex items-center justify-center text-rose mb-8 group-hover:bg-rose group-hover:text-white transition-all">
-                        <i data-lucide="link" class="w-8 h-8"></i>
+                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all">
+                    <div class="w-14 h-14 bg-roseLight rounded-xl flex items-center justify-center text-rose mb-6">
+                        <i data-lucide="link" class="w-7 h-7"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-primary mb-4">משפט הגישור המעשי</h3>
-                    <p class="text-lg text-textSoft font-light">
+                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">משפט הגישור</h3>
+                    <p class="text-base md:text-lg text-textSoft font-light">
                         איך שוזרים תפיסה חדשה בלי להגיד שקר לעצמך – ובלי שהמוח יתנגד.
                     </p>
                 </div>
-                <div class="bg-white p-10 rounded-[40px] shadow-card border border-gray-100 group transition-all">
-                    <div class="w-16 h-16 bg-roseLight rounded-2xl flex items-center justify-center text-rose mb-8 group-hover:bg-rose group-hover:text-white transition-all">
-                        <i data-lucide="sparkles" class="w-8 h-8"></i>
+                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all">
+                    <div class="w-14 h-14 bg-roseLight rounded-xl flex items-center justify-center text-rose mb-6">
+                        <i data-lucide="sparkles" class="w-7 h-7"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-primary mb-4">השמחה של העתיד</h3>
-                    <p class="text-lg text-textSoft font-light">
+                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">השמחה של העתיד</h3>
+                    <p class="text-base md:text-lg text-textSoft font-light">
                         הסוד שיגביר את השינון פי כמה ויאיץ את התוצאות בחיי היומיום שלך.
                     </p>
                 </div>
@@ -289,101 +274,97 @@
     </section>
 
     <!-- OFFER SECTION -->
-    <section id="register" class="py-24 bg-primary relative overflow-hidden">
-        <div class="max-w-4xl mx-auto px-6 relative z-10">
-            <div class="text-center text-white mb-16">
-                <h2 class="text-4xl md:text-5xl font-black mb-6">אל תפספסי את ההזדמנות לשנות את הקוד</h2>
-                <p class="text-xl opacity-90">הצטרפי אלינו לערב של גילוי, כלים מעשיים ושקט פנימי</p>
+    <section id="register" class="py-16 md:py-24 bg-primary relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-5 relative z-10">
+            <div class="text-center text-white mb-12">
+                <h2 class="text-3xl md:text-5xl font-black mb-4">אל תפספסי את ההזדמנות</h2>
+                <p class="text-lg md:text-xl opacity-90">הצטרפי אלינו לערב של גילוי ושקט פנימי</p>
             </div>
 
-            <div class="max-w-2xl mx-auto">
-                <div class="bg-white rounded-[40px] p-8 md:p-12 shadow-2xl border-4 border-accent relative">
-                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white px-8 py-2 rounded-full font-bold text-lg">
+            <div class="max-w-xl mx-auto">
+                <div class="bg-white rounded-[40px] p-6 md:p-12 shadow-2xl border-4 border-accent relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-white px-6 py-1.5 rounded-full font-bold text-base md:text-lg">
                         הכי מומלץ
                     </div>
                     
-                    <div class="text-center mb-10">
-                        <h3 class="text-2xl md:text-3xl font-bold text-primary mb-3">מועדון בריאות שבאה מהלב</h3>
-                        <p class="text-textSoft italic">ההדרכות בסדרה בנויות כמסע – כל שיעור נשען על הקודם</p>
+                    <div class="text-center mb-8">
+                        <h3 class="text-xl md:text-3xl font-bold text-primary mb-2">מועדון בריאות שבאה מהלב</h3>
+                        <p class="text-sm text-textSoft italic">ההדרכות בנויות כמסע – כל שיעור נשען על הקודם</p>
                     </div>
 
-                    <ul class="space-y-4 mb-10 text-lg">
+                    <ul class="space-y-4 mb-8 text-base md:text-lg">
                         <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="text-accent w-6 h-6 flex-shrink-0"></i>
-                            <span>כל שיעורי הסדרה – כולל שיעור זה וכל מה שיבוא אחריו</span>
+                            <i data-lucide="check" class="text-accent w-5 h-5 flex-shrink-0 mt-0.5"></i>
+                            <span>כל שיעורי הסדרה – כולל שיעור זה וכל הבאים</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="text-accent w-6 h-6 flex-shrink-0"></i>
+                            <i data-lucide="check" class="text-accent w-5 h-5 flex-shrink-0 mt-0.5"></i>
                             <span>2 מפגשים חיים בחודש – בריאות ופיתוח אישי</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="text-accent w-6 h-6 flex-shrink-0"></i>
-                            <span>וידאו מתכון שבועי – אוכל בריא ומהיר לחיים האמיתיים</span>
                         </li>
                     </ul>
 
-                    <div class="text-center mb-10">
+                    <div class="text-center mb-8">
                         <div class="flex items-center justify-center gap-2">
-                            <span class="text-5xl font-black text-accent">29₪</span>
-                            <span class="text-lg text-textSoft">לחודש הראשון</span>
+                            <span class="text-4xl md:text-5xl font-black text-accent">29₪</span>
+                            <span class="text-base md:text-lg text-textSoft">לחודש הראשון</span>
                         </div>
                     </div>
 
-                    <form id="formBottom" class="space-y-6 text-right">
+                    <form id="formBottom" class="space-y-5 text-right">
                         <!-- Honeypot -->
                         <div class="hp-field">
                             <input type="text" name="b_hp_field" tabindex="-1" autocomplete="off">
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">שם מלא <span class="text-rose">*</span></label>
-                            <input type="text" name="fullName" class="custom-input w-full px-1 py-3 text-lg" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">שם מלא <span class="text-rose">*</span></label>
+                            <input type="text" name="fullName" class="custom-input w-full px-4 py-3.5 text-base" required>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">כתובת מייל <span class="text-rose">*</span></label>
-                            <input type="email" name="email" class="custom-input w-full px-1 py-3 text-lg" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">כתובת מייל <span class="text-rose">*</span></label>
+                            <input type="email" name="email" class="custom-input w-full px-4 py-3.5 text-base" required>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">טלפון נייד <span class="text-rose">*</span></label>
-                            <input type="tel" name="phone" class="custom-input w-full px-1 py-3 text-lg" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">טלפון נייד <span class="text-rose">*</span></label>
+                            <input type="tel" name="phone" class="custom-input w-full px-4 py-3.5 text-base" required>
                         </div>
-                        <button type="submit" class="submit-btn w-full py-5 bg-accent hover:bg-[#C5A028] text-white text-2xl font-black rounded-full shadow-xl transition-all">
-                            הצטרפי למועדון ב-29₪ בלבד
+                        <button type="submit" class="submit-btn w-full py-4.5 bg-accent hover:bg-[#C5A028] text-white text-lg md:text-2xl font-black rounded-full shadow-xl transition-all">
+                            הצטרפי למועדון עכשיו
                         </button>
                     </form>
                 </div>
 
-                <div class="text-center text-white/80 mt-12">
-                    <p class="mb-2">רוצה רק את ההדרכה הזו?</p>
-                    <a href="#" class="text-xl font-bold text-accent underline underline-offset-8">רכישה של ההדרכה בלבד – 37₪ בלבד</a>
+                <div class="text-center text-white/80 mt-10">
+                    <p class="text-sm mb-2">רוצה רק את ההדרכה הזו?</p>
+                    <a href="https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=b93cc575-6cbb-4e39-a511-4c3183c4c000" class="text-lg md:text-xl font-bold text-accent underline underline-offset-8">רכישה של ההדרכה בלבד – 37₪</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ SECTION -->
-    <section class="py-24 bg-bgCream reveal">
+    <section class="py-16 md:py-24 bg-bgCream reveal">
         <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-12 text-center text-center">שאלות נפוצות</h2>
-            <div class="space-y-4">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
-                    <button class="faq-toggle w-full p-6 text-right flex items-center justify-between font-bold text-lg text-primary focus:outline-none">
+            <h2 class="text-2xl md:text-4xl font-bold text-primary mb-10 text-center">שאלות נפוצות</h2>
+            <div class="space-y-3">
+                <div class="bg-white rounded-2xl border border-gray-100">
+                    <button class="faq-toggle w-full p-5 text-right flex items-center justify-between font-bold text-base md:text-lg text-primary focus:outline-none">
                         האם מקבלים הקלטה?
-                        <i data-lucide="plus" class="text-accent icon-state w-6 h-6"></i>
+                        <i data-lucide="plus" class="text-accent icon-state w-5 h-5"></i>
                     </button>
                     <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="p-6 pt-0 text-textSoft">
-                            כן! ההקלטה תישלח למייל תוך 24 שעות מסיום המפגש ונשארת אצלך לתמיד.
+                        <div class="p-5 pt-0 text-sm md:text-base text-textSoft">
+                            כן! ההקלטה תישלח למייל תוך 24 שעות מסיום המפגש.
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
-                    <button class="faq-toggle w-full p-6 text-right flex items-center justify-between font-bold text-lg text-primary focus:outline-none">
+                <div class="bg-white rounded-2xl border border-gray-100">
+                    <button class="faq-toggle w-full p-5 text-right flex items-center justify-between font-bold text-base md:text-lg text-primary focus:outline-none">
                         האם יהיה זמן לשאלות?
-                        <i data-lucide="plus" class="text-accent icon-state w-6 h-6"></i>
+                        <i data-lucide="plus" class="text-accent icon-state w-5 h-5"></i>
                     </button>
                     <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="p-6 pt-0 text-textSoft">
+                        <div class="p-5 pt-0 text-sm md:text-base text-textSoft">
                             כן, בסיום ההדרכה אקדיש זמן לשאלות אישיות.
                         </div>
                     </div>
@@ -393,18 +374,18 @@
     </section>
 
     <!-- FOOTER CTA -->
-    <div class="py-20 bg-bgCream text-center border-t border-roseLight reveal">
-        <h2 class="text-3xl font-bold text-primary mb-6">הגיע הזמן לתכנת את ה-GPS מחדש</h2>
-        <a href="#register" class="inline-block bg-primary text-white px-12 py-5 rounded-full text-2xl font-bold shadow-xl transition-all hover:scale-105 active:scale-95">
+    <div class="py-16 bg-bgCream text-center border-t border-roseLight reveal">
+        <h2 class="text-2xl md:text-3xl font-bold text-primary mb-8">הגיע הזמן לתכנת את ה-GPS מחדש</h2>
+        <a href="#form-top-container" class="inline-block bg-primary text-white px-10 py-4 rounded-full text-lg md:text-2xl font-bold shadow-xl transition-all">
             הצטרפי למועדון עכשיו
         </a>
-        <p class="mt-8 text-rose font-medium">מצטרפות יחד לחיים חדשים</p>
+        <p class="mt-6 text-rose font-medium text-sm md:text-base">מצטרפות יחד לחיים חדשים</p>
     </div>
 
     <!-- LEGAL FOOTER -->
-    <div class="w-full text-center py-6 bg-white border-t border-gray-100 text-sm text-textSoft">
+    <footer class="w-full text-center py-6 bg-white border-t border-gray-100 text-xs text-textSoft">
         <script src="https://rivkaol.github.io/legal-footer.js"></script>
-    </div>
+    </footer>
 
     <script>
         lucide.createIcons();
@@ -413,12 +394,13 @@
             const reveals = document.querySelectorAll(".reveal");
             reveals.forEach(reveal => {
                 const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < window.innerHeight - 80) {
+                if (elementTop < window.innerHeight - 50) {
                     reveal.classList.add("active");
                 }
             });
         }
         window.addEventListener("scroll", handleScroll);
+        window.addEventListener("touchmove", handleScroll);
         handleScroll();
 
         document.querySelectorAll('.faq-toggle').forEach(button => {
@@ -442,9 +424,7 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                // בדיקת ספאם - Honeypot
                 if (form.elements['b_hp_field'].value !== "") {
-                    console.log("Spam detected");
                     return;
                 }
 
@@ -466,7 +446,7 @@
                     });
 
                     if (response.ok) {
-                        window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=9d43f90b-28d9-4095-a5fc-ab6e96318209';
+                        window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=6164e594-5dbf-42f0-919f-de27dae35618';
                     } else {
                         throw new Error();
                     }
