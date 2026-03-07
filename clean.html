@@ -24,17 +24,17 @@
                     colors: {
                         primary: '#1B4D3E',      /* ירוק מותג עמוק */
                         accent: '#D4AF37',       /* זהב מותג יוקרתי */
-                        mint: '#F0FAF4',         /* גוון ניקיון רענן */
-                        surface: '#FDFBF7',      /* רקע רך */
+                        mint: '#F4FAF7',         /* ירוק מנטה נקי */
+                        surface: '#FFFFFF',      /* לבן נקי */
                         textDark: '#1A1A1A',
-                        textSoft: '#333333'
+                        textSoft: '#2D3748'
                     },
                     fontFamily: {
                         sans: ['Rubik', 'sans-serif'],
                     },
                     boxShadow: {
-                        'premium': '0 15px 40px rgba(27, 77, 62, 0.06)',
-                        'gold-soft': '0 10px 20px rgba(212, 175, 55, 0.15)',
+                        'input': '0 2px 8px rgba(0, 0, 0, 0.04)',
+                        'premium': '0 20px 40px rgba(27, 77, 62, 0.05)',
                     }
                 }
             }
@@ -42,28 +42,30 @@
     </script>
 
     <style>
-        /* יציבות מוחלטת במובייל - מניעת ריקוד המסך */
+        /* יציבות ודיוק עיצובי - מניעת ריקוד המסך */
         html, body {
             max-width: 100%;
             overflow-x: hidden;
             background-color: #FFFFFF;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
             color: #1B4D3E;
             font-family: 'Rubik', sans-serif;
             scroll-behavior: smooth;
-            line-height: 1.8;
+            line-height: 1.9;
             -webkit-font-smoothing: antialiased;
         }
 
-        .hero-section {
-            background: linear-gradient(180deg, #F0FAF4 0%, #FFFFFF 100%);
+        .section-padding {
+            padding-top: 80px;
+            padding-bottom: 80px;
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(15px);
             transition: all 0.8s ease-out;
         }
         .reveal.active {
@@ -71,17 +73,33 @@
             transform: translateY(0);
         }
 
+        /* עיצוב תיבות נקי לפי תמונה 2 */
         .custom-input {
             transition: all 0.2s ease;
-            border: 2px solid #F3F4F6;
+            border: 1px solid #E2E8F0;
+            background-color: #FFFFFF;
         }
         .custom-input:focus {
             outline: none;
             border-color: #D4AF37;
-            background-color: #fff;
-            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.06);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.05);
         }
 
+        /* ירידת שורה חכמה */
+        .sentence-break {
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+        }
+
+        /* FAQ Transition */
         .faq-content {
             transition: max-height 0.4s ease-out, opacity 0.3s ease;
             max-height: 0;
@@ -89,142 +107,140 @@
             overflow: hidden;
         }
 
-        /* ירידת שורה חכמה אחרי נקודה - במחשב רווח, במובייל זרימה רגילה */
-        @media (min-width: 769px) {
-            .line-break {
-                display: block;
-                margin-top: 1rem;
-            }
-        }
-        @media (max-width: 768px) {
-            .line-break {
-                display: inline;
-            }
-        }
-
-        /* כפתור ישר וללא הטיות */
-        .cta-button {
-            transition: all 0.3s ease;
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.25);
+        /* עיצוב הפס הירוק לפי תמונה 1 */
+        .brand-footer-bar {
+            background-color: #1B4D3E;
+            height: 120px;
+            width: 100%;
         }
     </style>
 </head>
-<body class="antialiased text-[20px] md:text-[24px]">
+<body class="antialiased text-[24px] md:text-[28px]">
 
     <!-- TOP BAR -->
-    <div class="bg-primary text-white text-center py-3 px-4 text-sm md:text-lg font-medium tracking-wide">
+    <div class="bg-primary text-white text-center py-4 px-4 text-lg md:text-xl font-medium">
         הדרכה מיוחדת לפסח תשפ״ו - איך לנקות את הבית באמת בלי להחניק את הגוף והנשמה
     </div>
 
     <!-- HERO SECTION -->
-    <header class="relative pt-12 pb-24 hero-section overflow-hidden border-b border-gray-100">
+    <header class="relative pt-16 pb-24 bg-mint overflow-hidden border-b border-gray-100">
         <div class="max-w-6xl mx-auto px-6 relative z-10 text-center">
             
-            <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white shadow-sm border border-accent/20 text-primary font-bold text-sm md:text-xl mb-12">
+            <div class="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-white border border-accent/20 text-primary font-bold text-lg md:text-2xl mb-12">
                 <i data-lucide="calendar" class="text-accent w-6 h-6"></i>
                 רביעי 11.3 | 20:00 בזום מהנוחות של הבית
             </div>
 
-            <h1 class="text-4xl md:text-7xl font-bold leading-tight text-primary mb-10 tracking-tight">
+            <h1 class="text-5xl md:text-9xl font-bold leading-tight text-primary mb-12 tracking-tight">
                 פסח נקי מרעלים <br />
                 <span class="text-accent font-light italic">איך לנקות את הבית באמת?</span>
             </h1>
 
-            <p class="text-xl md:text-3xl text-textSoft mb-16 max-w-5xl mx-auto leading-relaxed font-normal">
+            <p class="text-2xl md:text-5xl text-textSoft mb-16 max-w-5xl mx-auto font-normal leading-snug">
                 כשהאזעקות עדיין מגיעות והגוף דרוך - את לא צריכה עוד עומס כימי.
-                <span class="line-break"></span>
+                <span class="sentence-break"></span>
                 גלי איך להכין בית כשר ומבריק בשיטה טבעית, שפויה ובריאה.
             </p>
 
-            <!-- FORM BOX -->
-            <div class="max-w-lg mx-auto relative text-right">
-                <div class="relative bg-white p-8 md:p-14 rounded-[30px] shadow-premium border-t-8 border-accent">
-                    <div class="text-center mb-10">
-                        <h3 class="text-2xl md:text-4xl font-bold text-primary mb-4">שמרי לי מקום עכשיו</h3>
-                        <div class="flex items-center justify-center gap-3 text-accent font-bold">
-                            <span class="text-4xl md:text-5xl font-bold text-primary tracking-tighter">37 ₪</span>
-                            <span class="text-sm md:text-xl opacity-80 font-medium tracking-wide">בלבד</span>
-                        </div>
+            <!-- FORM BOX (CLEAN DESIGN - IMAGE 2 STYLE) -->
+            <div id="registration" class="max-w-2xl mx-auto relative text-right">
+                <div class="relative bg-white p-10 md:p-16 rounded-[40px] shadow-premium border-t-[12px] border-accent">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl md:text-5xl font-bold text-primary mb-4">שמרי לי מקום עכשיו</h3>
+                        <p class="text-xl md:text-3xl text-accent font-medium">השקעה של 37 ₪ בלבד להדרכה מלאה</p>
                     </div>
 
-                    <form id="formTop" class="space-y-7" novalidate>
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-base md:text-lg pr-1">שם מלא</label>
-                            <input type="text" name="fullName" class="custom-input w-full px-5 py-4 bg-gray-50/50 rounded-2xl text-xl" required>
+                    <form id="formTop" class="space-y-10" novalidate>
+                        <div class="space-y-3">
+                            <label class="block text-primary font-bold text-xl md:text-2xl pr-1">שם מלא</label>
+                            <input type="text" name="fullName" class="custom-input w-full px-6 py-5 rounded-2xl text-2xl shadow-input" required minlength="2">
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-base md:text-lg pr-1">כתובת מייל</label>
-                            <input type="email" name="email" class="custom-input w-full px-5 py-4 bg-gray-50/50 rounded-2xl text-xl" required>
+                        <div class="space-y-3">
+                            <label class="block text-primary font-bold text-xl md:text-2xl pr-1">כתובת מייל</label>
+                            <input type="email" name="email" class="custom-input w-full px-6 py-5 rounded-2xl text-2xl shadow-input" required>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-base md:text-lg pr-1">טלפון נייד</label>
-                            <input type="tel" name="phone" class="custom-input w-full px-5 py-4 bg-gray-50/50 rounded-2xl text-xl" required>
+                        <div class="space-y-3">
+                            <label class="block text-primary font-bold text-xl md:text-2xl pr-1">טלפון נייד</label>
+                            <input type="tel" name="phone" class="custom-input w-full px-6 py-5 rounded-2xl text-2xl shadow-input" required pattern="^05\d{8}$">
                         </div>
-                        <button type="submit" class="cta-button w-full py-6 mt-4 bg-accent hover:bg-primary text-white text-xl md:text-2xl font-bold rounded-2xl transition-all">
+                        <button type="submit" class="cta-button w-full py-8 mt-6 bg-accent hover:bg-primary text-white text-3xl md:text-4xl font-bold rounded-3xl shadow-xl transition-all">
                             שמרי לי מקום עכשיו
                         </button>
                     </form>
+                    <p class="text-center mt-8 text-lg md:text-xl text-textSoft opacity-60 font-medium">
+                        הפרטים נשמרים אצלי בלבד כדי לשלוח לך את הקישור
+                    </p>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- CONTENT: PAIN POINTS -->
-    <section class="py-24 bg-white reveal">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-6xl font-bold text-primary mb-6 tracking-tight">יכול להיות שאת מזהה את עצמך?</h2>
-                <div class="w-24 h-1.5 bg-accent/30 mx-auto rounded-full"></div>
+    <section class="section-padding bg-white reveal">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-24">
+                <h2 class="text-4xl md:text-7xl font-bold text-primary mb-8 tracking-tight uppercase">יכול להיות שאת מזהה את עצמך?</h2>
+                <div class="w-32 h-2 bg-accent/30 mx-auto rounded-full"></div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-12 text-right">
-                <div class="flex gap-6 p-10 rounded-[35px] bg-mint/40 border border-accent/10">
-                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-                        <i data-lucide="battery-warning" class="text-accent w-8 h-8"></i>
+            <div class="grid md:grid-cols-2 gap-16 text-right">
+                <div class="flex flex-col gap-8 p-12 rounded-[40px] bg-mint/50 border border-accent/10 shadow-clean">
+                    <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shrink-0">
+                        <i data-lucide="alert-circle" class="text-accent w-12 h-12"></i>
                     </div>
-                    <p class="text-xl md:text-2xl text-textDark font-normal">
-                        אחרי יום ניקיונות את <strong>מותשת לחלוטין</strong> - לא רק מהמאמץ הפיזי, אלא גם עם ראש כבד, גרון מגורה, ואנרגיה שנעלמה.
+                    <p class="text-2xl md:text-4xl text-textDark font-normal">
+                        אחרי יום ניקיונות את <strong>מותשת לחלוטין</strong>.
+                        <span class="sentence-break"></span>
+                        לא רק מהמאמץ הפיזי, אלא גם עם ראש כבד, גרון מגורה, ואנרגיה שנעלמה.
                     </p>
                 </div>
 
-                <div class="flex gap-6 p-10 rounded-[35px] bg-mint/40 border border-accent/10">
-                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-                        <i data-lucide="wind" class="text-accent w-8 h-8"></i>
+                <div class="flex flex-col gap-8 p-12 rounded-[40px] bg-mint/50 border border-accent/10 shadow-clean">
+                    <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shrink-0">
+                        <i data-lucide="wind" class="text-accent w-12 h-12"></i>
                     </div>
-                    <p class="text-xl md:text-2xl text-textDark font-normal">
-                        בזמן הניקיונות ואחריהם יש לך <strong>שיעול, התעטשויות, עיניים מגורות</strong> - ואת תולה את זה ב״אבק״.
+                    <p class="text-2xl md:text-4xl text-textDark font-normal">
+                        בזמן הניקיונות ואחריהם יש לך <strong>שיעול, התעטשויות, עיניים מגורות</strong>.
+                        <span class="sentence-break"></span>
+                        את תולה את זה ב״אבק״, אך לעיתים הסיבה היא החשיפה לחומרים חריפים.
                     </p>
                 </div>
 
-                <div class="flex gap-6 p-10 rounded-[35px] bg-mint/40 border border-accent/10">
-                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-                        <i data-lucide="shopping-cart" class="text-accent w-8 h-8"></i>
+                <div class="flex flex-col gap-8 p-12 rounded-[40px] bg-mint/50 border border-accent/10 shadow-clean">
+                    <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shrink-0">
+                        <i data-lucide="shopping-bag" class="text-accent w-12 h-12"></i>
                     </div>
-                    <p class="text-xl md:text-2xl text-textDark font-normal">
-                        את קונה <strong>מוצרי ניקוי ב-15 שקל לבקבוק</strong> - ולא יודעת בכלל מה יש שם בפנים ומה הוא עושה לגוף.
+                    <p class="text-2xl md:text-4xl text-textDark font-normal">
+                        את קונה <strong>מוצרי ניקוי ב-15 שקל לבקבוק</strong>.
+                        <span class="sentence-break"></span>
+                        ולא יודעת בכלל מה יש שם בפנים ומה הוא עושה לגוף ולמערכת הנשימה.
                     </p>
                 </div>
 
-                <div class="flex gap-6 p-10 rounded-[35px] bg-mint/40 border border-accent/10">
-                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-                        <i data-lucide="shield-alert" class="text-accent w-8 h-8"></i>
+                <div class="flex flex-col gap-8 p-12 rounded-[40px] bg-mint/50 border border-accent/10 shadow-clean">
+                    <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shrink-0">
+                        <i data-lucide="home" class="text-accent w-12 h-12"></i>
                     </div>
-                    <p class="text-xl md:text-2xl text-textDark font-normal">
-                        הפסח הוא עוד <strong>עומס על עומס</strong> - הילדים בבית, האזעקות, הלחץ - ואת אמורה להכין בית נקי מהיסוד.
+                    <p class="text-2xl md:text-4xl text-textDark font-normal">
+                        הפסח הוא עוד <strong>עומס על עומס</strong>.
+                        <span class="sentence-break"></span>
+                        הילדים בבית, האזעקות, הלחץ - ואת אמורה להכין בית נקי מהיסוד.
                     </p>
                 </div>
             </div>
             
-            <div class="mt-20 bg-surface border-2 border-accent/20 p-12 md:p-20 rounded-[50px] text-center md:text-right relative overflow-hidden">
-                <div class="relative z-10 space-y-8">
-                    <h3 class="text-2xl md:text-5xl font-bold text-primary leading-tight">השנה יותר מתמיד - את לא יכולה להרשות לעצמך להגיע לפסח כשאת ריקה.</h3>
-                    <p class="text-xl md:text-3xl text-textDark leading-relaxed font-light">
-                        הבית צריך להיות נקי. אבל גם את צריכה להיות בסדר.
-                        <span class="line-break"></span>
-                        הפסח הזה מגיע כשעדיין יש אזעקות. כשהגוף שלך כבר נשא הרבה.
+            <!-- PERSPECTIVE BLOCK -->
+            <div class="mt-32 bg-white border-2 border-accent/20 p-16 md:p-24 rounded-[60px] text-center md:text-right relative shadow-premium">
+                <div class="relative z-10 space-y-12">
+                    <h3 class="text-3xl md:text-7xl font-bold text-primary leading-tight">השנה יותר מתמיד - את לא יכולה להרשות לעצמך להגיע לפסח כשאת ריקה.</h3>
+                    <p class="text-2xl md:text-5xl text-textDark leading-relaxed font-light">
+                        הבית צריך להיות נקי.
+                        <span class="sentence-break"></span>
+                        אבל גם את צריכה להיות בסדר.
+                        <span class="sentence-break"></span>
+                        הפסח הזה מגיע כשעדיין יש אזעקות.
+                        <span class="sentence-break"></span>
+                        כשהגוף שלך כבר נשא הרבה.
                     </p>
                 </div>
             </div>
@@ -232,31 +248,31 @@
     </section>
 
     <!-- BIO SECTION -->
-    <section class="py-24 bg-white reveal">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-16 md:gap-24">
+    <section class="section-padding bg-white reveal border-t border-gray-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-16 md:gap-32">
                 <div class="relative shrink-0">
-                    <div class="w-64 h-64 md:w-80 md:h-80 relative">
-                        <img src="profile.jpg.jpg" alt="רבקה הולצברג" class="relative w-full h-full rounded-full border-4 border-white shadow-premium object-cover">
+                    <div class="w-80 h-80 md:w-[450px] md:h-[450px] relative">
+                        <img src="me.jpg" alt="רבקה הולצברג" class="relative w-full h-full rounded-full border-[10px] border-white shadow-premium object-cover">
                     </div>
                 </div>
 
                 <div class="flex-1 text-center md:text-right">
-                    <h2 class="text-3xl md:text-5xl font-bold text-primary mb-10 tracking-tight">מילה אישית ממני אליך</h2>
-                    <div class="space-y-8 text-xl md:text-2xl leading-relaxed text-textDark font-light">
+                    <h2 class="text-4xl md:text-7xl font-bold text-primary mb-12 tracking-tight">מילה אישית ממני אליך</h2>
+                    <div class="space-y-10 text-2xl md:text-4xl leading-relaxed text-textDark font-light">
                         <p>אני זוכרת את עצמי מסיימת יום ניקיונות עם סחרחורת וגירוד בגרון.
-                            <span class="line-break"></span>
+                            <span class="sentence-break"></span>
                             הייתי משוכנעת שזה חלק מהמחיר שצריך לשלם על בית נקי לפסח.
                         </p>
                         <p>כשגיליתי את עולם הניקיון הטבעי, הבנתי שלא ויתרתי על שום דבר - לא על הברק ולא על ההידור.
-                            <span class="line-break"></span>
+                            <span class="sentence-break"></span>
                             <strong>רק שיניתי את הכלים</strong>.
                         </p>
-                        <p>ההדרכה הזו היא ריכוז של כל מה שלמדתי בעשור האחרון. 
-                            <span class="line-break"></span>
+                        <p>ההדרכה הזו היא ריכוז של כל מה שלמדתי בעשור האחרון.
+                            <span class="sentence-break"></span>
                             אני מזמינה אותך לעבור את הפסח הזה בבריאות ובשמחה.
                         </p>
-                        <p class="font-bold text-accent mt-10 text-2xl md:text-3xl tracking-tight">שלך, רבקה הולצברג</p>
+                        <p class="font-bold text-accent mt-12 text-3xl md:text-5xl tracking-tight">שלך, רבקה הולצברג</p>
                     </div>
                 </div>
             </div>
@@ -264,32 +280,34 @@
     </section>
 
     <!-- FAQ SECTION -->
-    <section class="py-24 bg-surface reveal border-y border-gray-100">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-5xl font-bold text-primary mb-16 tracking-tight">שאלות נפוצות</h2>
-            <div class="space-y-6 text-right">
-                <div class="bg-white rounded-[25px] border border-gray-100 shadow-sm overflow-hidden">
-                    <button class="faq-toggle w-full p-8 text-right font-bold text-primary flex justify-between items-center text-lg md:text-2xl transition-colors hover:bg-mint/30">
+    <section class="section-padding bg-mint reveal border-y border-accent/10">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-7xl font-bold text-primary mb-24 tracking-tight">שאלות נפוצות</h2>
+            <div class="space-y-8 text-right">
+                <div class="bg-white rounded-[40px] border border-gray-100 shadow-clean overflow-hidden">
+                    <button class="faq-toggle w-full p-10 text-right font-bold text-primary flex justify-between items-center text-2xl md:text-4xl transition-colors hover:bg-white/80">
                         <span>מה קורה אם אני לא יכולה להגיע לשידור החי?</span>
-                        <i data-lucide="plus" class="text-accent w-7 h-7 transition-transform duration-500"></i>
+                        <i data-lucide="plus" class="text-accent w-10 h-10 transition-transform duration-500"></i>
                     </button>
-                    <div class="faq-content px-8 pb-8 text-textSoft text-lg md:text-2xl font-light leading-relaxed">
-                        אין שום בעיה! כל הנרשמות מקבלות את ההקלטה המלאה של ההדרכה למייל תוך 24 שעות. 
-                        <span class="line-break"></span>
+                    <div class="faq-content px-10 pb-10 text-textSoft text-xl md:text-3xl font-light leading-relaxed">
+                        אין שום בעיה!
+                        <span class="sentence-break"></span>
+                        כל הנרשמות מקבלות את ההקלטה המלאה של ההדרכה למייל תוך 24 שעות.
+                        <span class="sentence-break"></span>
                         ההקלטה נשארת אצלך לצפייה חוזרת בכל זמן.
                     </div>
                 </div>
 
-                <div class="bg-white rounded-[25px] border border-gray-100 shadow-sm overflow-hidden">
-                    <button class="faq-toggle w-full p-8 text-right font-bold text-primary flex justify-between items-center text-lg md:text-2xl transition-colors hover:bg-mint/30">
+                <div class="bg-white rounded-[40px] border border-gray-100 shadow-clean overflow-hidden">
+                    <button class="faq-toggle w-full p-10 text-right font-bold text-primary flex justify-between items-center text-2xl md:text-4xl transition-colors hover:bg-white/80">
                         <span>האם החומרים הטבעיים באמת מחטאים?</span>
-                        <i data-lucide="plus" class="text-accent w-7 h-7 transition-transform duration-500"></i>
+                        <i data-lucide="plus" class="text-accent w-10 h-10 transition-transform duration-500"></i>
                     </button>
-                    <div class="faq-content px-8 pb-8 text-textSoft text-lg md:text-2xl font-light leading-relaxed">
+                    <div class="faq-content px-10 pb-10 text-textSoft text-xl md:text-3xl font-light leading-relaxed">
                         חד משמעית כן.
-                        <span class="line-break"></span>
-                        חומץ ולימון הם קוטלי חיידקים טבעיים חזקים מאוד, וסודה לשתייה היא מסירת שומנים מעולה. 
-                        <span class="line-break"></span>
+                        <span class="sentence-break"></span>
+                        חומץ ולימון הם קוטלי חיידקים טבעיים חזקים מאוד, וסודה לשתייה היא מסירת שומנים מעולה.
+                        <span class="sentence-break"></span>
                         בהדרכה נלמד את המינונים הנכונים.
                     </div>
                 </div>
@@ -298,25 +316,23 @@
     </section>
 
     <!-- FINAL CTA -->
-    <section class="py-24 bg-white text-center reveal overflow-hidden relative" id="register-bottom">
-        <div class="max-w-4xl mx-auto px-6 relative z-10">
-            <h2 class="text-4xl md:text-7xl font-bold text-primary mb-10 tracking-tight leading-tight">בואי נהפוך את הפסח הזה <br/><span class="text-accent font-light italic">לזמן של כוח והתחדשות</span></h2>
-            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="cta-button shadow-gold-soft px-14 py-7 bg-accent hover:bg-primary text-white rounded-2xl font-bold text-xl md:text-3xl transition-all">
+    <section class="section-padding bg-white text-center reveal overflow-hidden relative" id="register-bottom">
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <h2 class="text-5xl md:text-[110px] font-bold text-primary mb-16 tracking-tight leading-tight">בואי נהפוך את הפסח הזה <br/><span class="text-accent font-light italic block text-center mt-4">לזמן של כוח והתחדשות</span></h2>
+            
+            <button onclick="document.getElementById('registration').scrollIntoView({behavior: 'smooth'})" class="cta-button shadow-xl px-16 py-10 bg-accent hover:bg-primary text-white rounded-[40px] font-bold text-3xl md:text-5xl transition-all">
                 שמרי לי מקום עכשיו
             </button>
-            <div class="mt-14 flex items-center justify-center gap-3 text-primary/40 font-medium text-lg md:text-xl italic">
-                <i data-lucide="heart" class="text-accent w-6 h-6 fill-accent/10"></i>
+            
+            <div class="mt-20 flex items-center justify-center gap-4 text-primary font-medium text-xl md:text-3xl italic">
                 מצטרפות יחד לפסח שמרגיש אחרת
+                <i data-lucide="heart" class="text-accent w-10 h-10 fill-current"></i>
             </div>
         </div>
     </section>
 
-    <!-- Simple Footer -->
-    <footer class="py-16 bg-white text-primary/30 text-center border-t border-gray-50">
-        <div class="max-w-xs mx-auto opacity-50 grayscale">
-            <script src="https://rivkaol.github.io/legal-footer.js"></script>
-        </div>
-    </footer>
+    <!-- BRAND FOOTER (IMAGE 1 STYLE) -->
+    <div class="brand-footer-bar"></div>
 
     <script>
         // Initialize Icons
@@ -357,15 +373,33 @@
             });
         });
 
-        // Form Logic with Redirect and Webhook
+        // Smart Form Mechanism
         const initForm = (id) => {
             const form = document.getElementById(id);
             if (!form) return;
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                
+                // Smart Mechanism: Manual check before browser reporting
+                const fullName = form.querySelector('[name="fullName"]').value.trim();
+                const email = form.querySelector('[name="email"]').value.trim();
+                const phone = form.querySelector('[name="phone"]').value.trim();
+
+                if (fullName.length < 2) {
+                    alert('נא להזין שם מלא תקין');
+                    return;
+                }
+                if (!email.includes('@') || !email.includes('.')) {
+                    alert('נא להזין כתובת מייל תקינה');
+                    return;
+                }
+                if (!/^05\d{8}$/.test(phone)) {
+                    alert('נא להזין מספר טלפון ישראלי תקין (05X-XXXXXXX)');
+                    return;
+                }
+
                 const btn = form.querySelector('button');
                 const originalText = btn.innerText;
-                
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
 
@@ -373,18 +407,19 @@
                 btn.disabled = true;
 
                 try {
-                    const response = await fetch('https://hook.eu2.make.com/6507qprgc5q73a7q7yikcf0cobopoyn7', {
+                    // Send to webhook
+                    await fetch('https://hook.eu2.make.com/6507qprgc5q73a7q7yikcf0cobopoyn7', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ...data, campaign: 'passover-clean-living-2025' }),
+                        body: JSON.stringify({ ...data, timestamp: new Date().toISOString() }),
                     });
 
-                    // Redirect regardless of webhook status for smooth user experience
+                    // Immediate redirect to payment page
                     window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=10f769a8-add9-4d4f-8889-18174884a0a0';
                     
                 } catch (error) {
                     console.error('Error:', error);
-                    // Still attempt to redirect
+                    // Still attempt to redirect on error to ensure user flow
                     window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=10f769a8-add9-4d4f-8889-18174884a0a0';
                 }
             });
