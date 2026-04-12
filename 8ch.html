@@ -14,7 +14,7 @@
     <!-- Google Fonts: Rubik -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -22,21 +22,23 @@
                 extend: {
                     colors: {
                         primary: '#1B4D3E',      /* ירוק יער */
+                        primaryLight: '#2A755D', /* ירוק בהיר יותר */
                         accent: '#D4AF37',       /* זהב */
                         rose: '#D68C85',         /* ורוד חימר/פודרה */
                         roseLight: '#FFF3F2',    /* ורדרד ענן בהיר */
                         bgCream: '#FDFBF7',      /* שמנת */
-                        textDark: '#333333',
-                        textSoft: '#555555'
+                        textDark: '#1F2937',     /* אפור כהה מאוד לקריאות */
+                        textSoft: '#4B5563'      /* אפור רך לקריאות */
                     },
                     fontFamily: {
                         sans: ['Rubik', 'sans-serif'],
                     },
                     boxShadow: {
-                        'soft': '0 10px 30px rgba(27,77,62,0.05)',
-                        'card': '0 15px 35px rgba(0,0,0,0.04)',
+                        'soft': '0 10px 40px rgba(27,77,62,0.06)',
+                        'card': '0 20px 40px rgba(0,0,0,0.05)',
                         'gold-btn': '0 8px 25px rgba(212,175,55,0.3)',
-                        'primary-btn': '0 8px 25px rgba(27,77,62,0.2)'
+                        'primary-btn': '0 8px 25px rgba(27,77,62,0.2)',
+                        'glow': '0 0 40px rgba(214,140,133,0.15)'
                     }
                 }
             }
@@ -44,7 +46,7 @@
     </script>
 
     <style>
-        /* מניעת תזוזות וריקוד של הדף במגע */
+        /* הגדרות בסיס למניעת קפיצות והחלקת גלילה */
         html, body {
             max-width: 100%;
             overflow-x: hidden;
@@ -55,18 +57,20 @@
 
         body {
             background-color: #FDFBF7;
-            color: #333333;
+            color: #1F2937;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
+        /* אנימציות רקע וכניסה */
         .hero-bg {
-            background: radial-gradient(circle at top, #FFF3F2 0%, #FDFBF7 80%);
+            background: radial-gradient(circle at top center, #FFF3F2 0%, #FDFBF7 70%);
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            transform: translateY(20px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity;
         }
         .reveal.active {
@@ -74,22 +78,29 @@
             transform: translateY(0);
         }
 
-        /* עיצוב שדות טופס נקיים וסגורים */
+        .float-anim {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* עיצוב שדות טופס מתקדם */
         .custom-input {
-            transition: all 0.2s ease;
-            border: 1px solid #D1D5DB;
+            transition: all 0.3s ease;
+            border: 2px solid #E5E7EB;
             background: #FFFFFF !important;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 1.1rem;
         }
         .custom-input:focus {
             outline: none;
             border-color: #D4AF37;
-            box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
-        }
-        .custom-input.error {
-            border-color: #ef4444;
-            background-color: #fffafb !important;
+            box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
+            transform: translateY(-1px);
         }
 
         /* שדה למניעת ספאם */
@@ -98,109 +109,137 @@
             visibility: hidden !important;
         }
 
+        /* קו תחתון מעוצב - הדגשה */
         .curvy-underline {
-            background: linear-gradient(120deg, rgba(214,140,133,0.2) 0%, rgba(214,140,133,0.2) 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 0.3em;
-            background-position: 0 95%;
+            position: relative;
+            z-index: 1;
+        }
+        .curvy-underline::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: rgba(214,140,133,0.3);
+            z-index: -1;
+            border-radius: 4px;
+            transform: skewX(-15deg);
         }
 
-        /* מניעת קפיצות בלחיצה */
+        /* כפתורים משודרגים */
         button {
             -webkit-tap-highlight-color: transparent;
         }
-        button:active {
-            transform: translateY(1px) scale(0.99);
-        }
-
-        /* כפתור עבה ומרשים */
         .btn-thick {
-            padding: 1.25rem 2rem;
+            padding: 1rem 2rem;
             border-radius: 9999px;
-            font-weight: 900;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
+            letter-spacing: 0.02em;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-thick:hover {
+            transform: translateY(-2px);
+        }
+        .btn-thick:active {
+            transform: translateY(1px);
+        }
+        .btn-thick::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased font-sans">
 
     <!-- ANNOUNCEMENT BAR -->
-    <div class="bg-primary text-white text-center py-3 px-4 text-xs md:text-base font-medium">
+    <div class="bg-gradient-to-r from-primary to-primaryLight text-white text-center py-3 px-4 text-sm md:text-base font-medium tracking-wide">
         בשבועות כאלה, אנחנו צריכות יותר מתמיד את הכלים שמחזיקים אותנו מבפנים
     </div>
 
     <!-- HERO SECTION -->
-    <header class="relative pt-8 pb-16 md:pt-16 md:pb-24 hero-bg overflow-hidden border-b border-rose/5">
-        <div class="absolute top-0 left-6 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/10 to-transparent"></div>
-        <div class="absolute top-0 right-6 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/10 to-transparent"></div>
+    <header class="relative pt-10 pb-20 md:pt-20 md:pb-32 hero-bg overflow-hidden border-b border-rose/10">
+        <!-- קווי דקורציה צדדיים -->
+        <div class="hidden md:block absolute top-0 left-10 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/20 to-transparent"></div>
+        <div class="hidden md:block absolute top-0 right-10 h-full w-[1px] bg-gradient-to-b from-transparent via-rose/20 to-transparent"></div>
 
-        <div class="max-w-4xl mx-auto px-5 relative z-10 text-center">
+        <div class="max-w-5xl mx-auto px-5 relative z-10 text-center">
             
-            <div class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white border border-rose/20 text-primary font-bold text-base md:text-lg mb-8 shadow-sm">
-                הדרכת עומק מרתקת בשידור חי | יום רביעי 18.3
+            <div class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-rose/20 text-primary font-semibold text-sm md:text-lg mb-8 shadow-sm float-anim">
+                <span class="w-2 h-2 rounded-full bg-rose animate-pulse"></span>
+                הדרכת עומק מרתקת בשידור חי | יום רביעי 15.4
             </div>
 
-            <h1 class="text-3xl md:text-6xl font-black leading-tight tracking-tight text-primary mb-6 animate-fade-in">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight text-primary mb-6">
                 כשהכל מסביב מטלטל –<br />
-                <span class="text-rose curvy-underline">איך נשארים יציבות מבפנים?</span>
+                <span class="text-rose curvy-underline inline-block mt-2 font-bold">איך נשארים יציבות מבפנים?</span>
             </h1>
 
-            <p class="text-lg md:text-2xl text-textSoft mb-10 max-w-2xl mx-auto leading-relaxed">
-                יש כלי שגדולי ישראל לימדו אותנו לפני מאות שנים. כלי שמשנה את הקוד בתת-ההכרה – ומחזיר אותנו לעצמנו, גם בימים הכי קשים.
+            <p class="text-lg md:text-2xl text-textSoft mb-10 max-w-3xl mx-auto leading-relaxed font-medium">
+                יש כלי שגדולי ישראל לימדו אותנו לפני מאות שנים.<br class="hidden md:block" /> כלי שמשנה את הקוד בתת-ההכרה – ומחזיר אותנו לעצמנו, גם בימים הכי קשים.
             </p>
 
-            <div class="max-w-lg mx-auto mb-12 reveal">
-                <div class="bg-white border-r-4 border-accent p-6 md:p-8 rounded-2xl shadow-soft text-right">
-                    <p class="text-xl md:text-2xl font-bold text-primary mb-1">חשבי טוב – ויהיה טוב</p>
-                    <p class="text-sm md:text-base text-textSoft">הרבי מלובביץ' – עיקרון שמשנה חיים, בימים קשים ובימים רגילים</p>
+            <div class="max-w-xl mx-auto mb-16 reveal">
+                <div class="bg-white/60 backdrop-blur-sm border-r-4 border-accent p-6 md:p-8 rounded-3xl shadow-soft text-right hover:bg-white transition duration-300">
+                    <p class="text-2xl md:text-3xl font-bold text-primary mb-2">"חשבי טוב – ויהיה טוב"</p>
+                    <p class="text-base md:text-lg text-textSoft font-medium">הרבי מלובביץ' – עיקרון שמשנה חיים, בימים קשים ובימים רגילים</p>
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 text-base md:text-lg text-textSoft font-medium mb-12">
-                <div class="flex items-center justify-center gap-2"><i data-lucide="calendar" class="text-rose w-5 h-5"></i> יום רביעי 15.4 | 20:00</div>
-                <div class="flex items-center justify-center gap-2"><i data-lucide="video" class="text-rose w-5 h-5"></i> שידור חי בזום מהבית</div>
-                <div class="flex items-center justify-center gap-2"><i data-lucide="clapperboard" class="text-rose w-5 h-5"></i> הקלטה נשארת אצלך</div>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-10 text-base md:text-lg text-textSoft font-semibold mb-16 bg-white/40 p-4 rounded-3xl inline-flex w-full md:w-auto mx-auto backdrop-blur-sm border border-white">
+                <div class="flex items-center gap-3"><div class="p-2 bg-roseLight rounded-full"><i data-lucide="calendar" class="text-rose w-5 h-5"></i></div> יום רביעי 15.4 | 20:00</div>
+                <div class="hidden md:block w-1 h-1 rounded-full bg-gray-300"></div>
+                <div class="flex items-center gap-3"><div class="p-2 bg-roseLight rounded-full"><i data-lucide="video" class="text-rose w-5 h-5"></i></div> שידור חי בזום</div>
+                <div class="hidden md:block w-1 h-1 rounded-full bg-gray-300"></div>
+                <div class="flex items-center gap-3"><div class="p-2 bg-roseLight rounded-full"><i data-lucide="clapperboard" class="text-rose w-5 h-5"></i></div> הקלטה נשארת אצלך</div>
             </div>
 
             <!-- MAIN CAPTURE FORM -->
-            <div id="capture-form" class="max-w-md mx-auto relative mb-16 reveal">
-                <div class="relative bg-white p-7 md:p-10 rounded-[35px] shadow-card border border-gray-100">
-                    
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold text-primary mb-1">שמרי לי מקום בהדרכה</h3>
-                        <p class="text-sm text-textSoft">מלאי פרטים ובחרי את מסלול ההצטרפות</p>
-                    </div>
-
-                    <form id="formLeadCapture" class="space-y-6 text-right">
+            <div id="capture-form" class="max-w-md mx-auto relative reveal">
+                <!-- אפקט הילה מסביב לטופס -->
+                <div class="absolute inset-0 bg-rose rounded-[40px] blur-3xl opacity-10"></div>
+                
+                    <form id="formLeadCapture" class="space-y-4 text-right">
                         <div class="hp-field">
                             <input type="text" name="hp_field_check" tabindex="-1" autocomplete="off">
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">שם מלא <span class="text-rose font-black">*</span></label>
-                            <input type="text" name="fullName" class="custom-input w-full px-5 py-4" placeholder="" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-semibold text-sm pr-2">שם מלא <span class="text-rose font-bold">*</span></label>
+                            <input type="text" name="fullName" class="custom-input w-full px-5 py-3" placeholder="הקלידי את שמך" required>
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">כתובת מייל <span class="text-rose font-black">*</span></label>
-                            <input type="email" name="email" class="custom-input w-full px-5 py-4 text-left" placeholder="" dir="ltr" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-semibold text-sm pr-2">כתובת מייל <span class="text-rose font-bold">*</span></label>
+                            <input type="email" name="email" list="email-options-top" class="custom-input w-full px-5 py-3 text-left" placeholder="your@email.com" dir="ltr" required>
+                            <datalist id="email-options-top">
+                                <option value="@gmail.com"></option>
+                                <option value="@walla.co.il"></option>
+                                <option value="@yahoo.com"></option>
+                                <option value="@hotmail.com"></option>
+                                <option value="@outlook.com"></option>
+                            </datalist>
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="block text-primary font-bold text-sm pr-1">טלפון נייד <span class="text-rose font-black">*</span></label>
-                            <input type="tel" name="phone" class="custom-input w-full px-5 py-4 text-left" placeholder="" dir="ltr" required>
+                        <div class="space-y-1.5">
+                            <label class="block text-primary font-semibold text-sm pr-2">טלפון נייד <span class="text-rose font-bold">*</span></label>
+                            <input type="tel" name="phone" class="custom-input w-full px-5 py-3 text-left" placeholder="050-0000000" dir="ltr" required>
                         </div>
                         
-                        <div class="pt-4 space-y-4">
-                            <button type="button" onclick="handleSubmit('club')" class="btn-thick w-full bg-accent hover:bg-[#C5A028] text-white text-xl shadow-gold-btn border-b-4 border-[#A6861F] flex items-center justify-center gap-2">
+                        <div class="pt-5">
+                            <button type="button" onclick="handleSubmit('club')" class="btn-thick w-full bg-accent hover:bg-[#C5A028] text-white text-lg md:text-xl shadow-gold-btn border-b-4 border-[#A6861F] flex items-center justify-center gap-2 group">
                                 הצטרפי למועדון ב-29₪
+                                <i data-lucide="arrow-left" class="w-5 h-5 transition-transform group-hover:-translate-x-1"></i>
                             </button>
-                            
-                            <button type="button" onclick="handleSubmit('workshop')" class="w-full text-center py-2 text-rose font-bold text-lg underline underline-offset-8 decoration-rose/30 hover:decoration-rose transition-all">
-                                רוצה רק את ההדרכה? לחצי כאן – 37₪
-                            </button>
+                            <div class="text-center mt-3 flex items-center justify-center gap-2 text-sm text-gray-500">
+                                <i data-lucide="lock" class="w-3 h-3"></i> תשלום מאובטח
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -209,141 +248,211 @@
     </header>
 
     <!-- PAIN POINTS SECTION -->
-    <section class="py-16 md:py-24 bg-white reveal">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-2xl md:text-4xl font-bold text-primary mb-4 leading-tight">יכול להיות שאת מזהה את עצמך כאן?</h2>
-                <div class="h-1 w-16 bg-rose mx-auto rounded-full"></div>
+    <section class="py-20 md:py-32 bg-white reveal">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16 md:mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-6 leading-tight">יכול להיות שאת מזהה את עצמך כאן?</h2>
+                <div class="h-1.5 w-24 bg-rose mx-auto rounded-full opacity-80"></div>
             </div>
 
-            <div class="grid gap-4 md:gap-6">
-                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
-                    <i data-lucide="info" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
-                    <p class="text-lg text-textSoft font-medium leading-relaxed">הלב כבד לאחרונה – מהחדשות, מהחרדה – ואת מחפשת איך להתייצב מבפנים</p>
+            <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+                <!-- כרטיסיות כאבים עם עיצוב אוורירי -->
+                <div class="flex items-start gap-5 p-6 md:p-8 rounded-[2rem] bg-bgCream border border-rose/10 hover:shadow-soft transition duration-300 group">
+                    <div class="bg-white p-3 rounded-2xl shadow-sm group-hover:scale-110 transition duration-300 flex-shrink-0">
+                        <i data-lucide="cloud-rain" class="text-rose w-6 h-6"></i>
+                    </div>
+                    <p class="text-lg text-textDark font-medium leading-relaxed pt-1">הלב כבד לאחרונה – מהחדשות, מהחרדה – ואת מחפשת איך להתייצב מבפנים מול הסערה.</p>
                 </div>
-                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
-                    <i data-lucide="info" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
-                    <p class="text-lg text-textSoft font-medium leading-relaxed">ניסית לחשוב חיובי, אמרת לעצמך "הכל יהיה בסדר" – אבל משהו בפנים לא האמין לזה</p>
+
+                <div class="flex items-start gap-5 p-6 md:p-8 rounded-[2rem] bg-bgCream border border-rose/10 hover:shadow-soft transition duration-300 group">
+                    <div class="bg-white p-3 rounded-2xl shadow-sm group-hover:scale-110 transition duration-300 flex-shrink-0">
+                        <i data-lucide="message-circle-x" class="text-rose w-6 h-6"></i>
+                    </div>
+                    <p class="text-lg text-textDark font-medium leading-relaxed pt-1">ניסית לחשוב חיובי, אמרת לעצמך "הכל יהיה בסדר" – אבל משהו עמוק בפנים פשוט לא האמין לזה.</p>
                 </div>
-                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
-                    <i data-lucide="info" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
-                    <p class="text-lg text-textSoft font-medium leading-relaxed">עשית דיאטה, ירדת, חזרת. שינית הרגלים, החזקת שבועיים, חזרת לאותו מקום</p>
+
+                <div class="flex items-start gap-5 p-6 md:p-8 rounded-[2rem] bg-bgCream border border-rose/10 hover:shadow-soft transition duration-300 group">
+                    <div class="bg-white p-3 rounded-2xl shadow-sm group-hover:scale-110 transition duration-300 flex-shrink-0">
+                        <i data-lucide="refresh-ccw" class="text-rose w-6 h-6"></i>
+                    </div>
+                    <p class="text-lg text-textDark font-medium leading-relaxed pt-1">עשית דיאטה, ירדת, חזרת. שינית הרגלים, החזקת שבועיים, ומצאת את עצמך חוזרת בדיוק לאותו מקום.</p>
                 </div>
-                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
-                    <i data-lucide="info" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
-                    <p class="text-lg text-textSoft font-medium leading-relaxed">יש כאבים, עייפות, כבדות – ואת מרגישה שזה קשור לעומק יותר מרק פיזי</p>
+
+                <div class="flex items-start gap-5 p-6 md:p-8 rounded-[2rem] bg-bgCream border border-rose/10 hover:shadow-soft transition duration-300 group">
+                    <div class="bg-white p-3 rounded-2xl shadow-sm group-hover:scale-110 transition duration-300 flex-shrink-0">
+                        <i data-lucide="activity" class="text-rose w-6 h-6"></i>
+                    </div>
+                    <p class="text-lg text-textDark font-medium leading-relaxed pt-1">יש כאבים, עייפות, כבדות – ואת מרגישה עמוק בפנים שזה קשור למשהו מעבר לרק מצב פיזי.</p>
                 </div>
-                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
-                    <i data-lucide="info" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
-                    <p class="text-lg text-textSoft font-medium leading-relaxed">הקשר עם הילדים הבוגרים לא מה שרצית – ואת לא מצליחה להבין למה</p>
+
+                <div class="flex items-start gap-5 p-6 md:p-8 rounded-[2rem] bg-bgCream border border-rose/10 hover:shadow-soft transition duration-300 group">
+                    <div class="bg-white p-3 rounded-2xl shadow-sm group-hover:scale-110 transition duration-300 flex-shrink-0">
+                        <i data-lucide="users" class="text-rose w-6 h-6"></i>
+                    </div>
+                    <p class="text-lg text-textDark font-medium leading-relaxed pt-1">הקשר עם הילדים הבוגרים לא מה שרצית – ואת לא מצליחה להבין למה זה כל כך מורכב.</p>
                 </div>
-                <div class="flex items-start gap-4 p-5 md:p-6 rounded-2xl bg-bgCream border border-roseLight">
-                    <i data-lucide="info" class="text-rose w-5 h-5 mt-1 flex-shrink-0"></i>
-                    <p class="text-lg text-textSoft font-medium leading-relaxed">תחושה שבגיל שלך – כבר מאוחר מדי לשנות, ללמוד, להתחיל מחדש</p>
+
+                <div class="flex items-start gap-5 p-6 md:p-8 rounded-[2rem] bg-bgCream border border-rose/10 hover:shadow-soft transition duration-300 group">
+                    <div class="bg-white p-3 rounded-2xl shadow-sm group-hover:scale-110 transition duration-300 flex-shrink-0">
+                        <i data-lucide="hourglass" class="text-rose w-6 h-6"></i>
+                    </div>
+                    <p class="text-lg text-textDark font-medium leading-relaxed pt-1">תחושה מנקרת שבגיל שלך – כבר מאוחר מדי לשנות, ללמוד, או להתחיל מסלול מחדש.</p>
                 </div>
             </div>
             
-            <div class="mt-12 p-8 bg-roseLight rounded-3xl border-r-4 border-rose">
-                <p class="text-lg md:text-2xl leading-relaxed text-primary">
-                    <strong>זה לא חוסר רצון. זה לא חולשה.</strong><br/>
-                    יש פשוט קוד ישן שיושב בתת-ההכרה ומחזיק אותך שם – וכדי לשנות אותו, צריך לדעת בדיוק איך.
+            <div class="mt-16 p-8 md:p-12 bg-gradient-to-br from-roseLight to-white rounded-[2.5rem] border-r-4 border-rose shadow-sm relative overflow-hidden">
+                <div class="absolute -left-10 -top-10 opacity-5">
+                    <i data-lucide="quote" class="w-40 h-40"></i>
+                </div>
+                <p class="text-xl md:text-3xl leading-relaxed md:leading-loose text-primary relative z-10">
+                    <strong class="text-rose">זה לא חוסר רצון. זה לא חולשה.</strong><br/>
+                    יש פשוט קוד ישן שיושב בתת-ההכרה ומחזיק אותך שם – וכדי לשנות אותו, צריך לדעת <span class="border-b-2 border-accent">בדיוק איך</span>.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- WHAT YOU'LL LEARN -->
-    <section class="py-16 md:py-24 bg-bgCream reveal border-y border-roseLight">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-2xl md:text-4xl font-bold text-primary mb-4 leading-tight">בהדרכה הזו את תלמדי:</h2>
+    <section class="py-20 md:py-32 bg-bgCream reveal border-y border-roseLight/50 relative overflow-hidden">
+        <!-- עיגולי רקע דקורטיביים -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-rose/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"></div>
+
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold text-primary mb-6 leading-tight">בהדרכה הזו את תלמדי:</h2>
+                <p class="text-xl text-textSoft">כלים מעשיים לשנות את המציאות מתוך תת-ההכרה</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all hover:-translate-y-1">
-                    <i data-lucide="brain" class="text-rose w-8 h-8 mb-6"></i>
-                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">הסוד שחזל גילו לפנינו</h3>
-                    <p class="text-base text-textSoft font-light">למה דווקא שלוש פעמים ביום, שלושים יום – ואיך זה משנה קוד עמוק במוח.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- כרטיסיות למידה מעוצבות -->
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-card hover:shadow-soft border border-gray-50 transition duration-300 group">
+                    <div class="w-16 h-16 rounded-2xl bg-roseLight flex items-center justify-center mb-6 group-hover:-translate-y-2 transition duration-300">
+                        <i data-lucide="brain" class="text-rose w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-4 leading-tight">הסוד שחז"ל גילו לפנינו</h3>
+                    <p class="text-lg text-textSoft leading-relaxed">למה דווקא שלוש פעמים ביום, שלושים יום – ואיך תבנית זו משנה קוד עמוק במוח.</p>
                 </div>
-                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all hover:-translate-y-1">
-                    <i data-lucide="link" class="text-accent w-8 h-8 mb-6"></i>
-                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">משפט הגישור – הכלי המעשי</h3>
-                    <p class="text-base text-textSoft font-light">איך שוזרים תפיסה חדשה בלי להגיד שקר לעצמך – ובלי שהמוח יתנגד.</p>
+
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-card hover:shadow-soft border border-gray-50 transition duration-300 group">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition duration-300">
+                        <i data-lucide="link" class="text-accent w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-4 leading-tight">משפט הגישור – הכלי המעשי</h3>
+                    <p class="text-lg text-textSoft leading-relaxed">איך שוזרים תפיסה חדשה בלי להגיד שקר לעצמך – ובלי שהמוח יתנגד.</p>
                 </div>
-                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all hover:-translate-y-1">
-                    <i data-lucide="sparkles" class="text-rose w-8 h-8 mb-6"></i>
-                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">ללוות מהשמחה של העתיד</h3>
-                    <p class="text-base text-textSoft font-light">הסוד שיגביר את השינון פי כמה ויאיץ את התוצאות.</p>
+
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-card hover:shadow-soft border border-gray-50 transition duration-300 group">
+                    <div class="w-16 h-16 rounded-2xl bg-roseLight flex items-center justify-center mb-6 group-hover:-translate-y-2 transition duration-300">
+                        <i data-lucide="sparkles" class="text-rose w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-4 leading-tight">ללוות מהשמחה של העתיד</h3>
+                    <p class="text-lg text-textSoft leading-relaxed">הסוד שיגביר את כוח השינון פי כמה ויאיץ את התוצאות בפועל.</p>
                 </div>
-                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all hover:-translate-y-1">
-                    <i data-lucide="pen-tool" class="text-accent w-8 h-8 mb-6"></i>
-                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">המשפט שלך – עכשיו</h3>
-                    <p class="text-base text-textSoft font-light">תצאי מההדרכה עם המשפט האישי שלך, מוכן לתרגול מחר בבוקר.</p>
+
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-card hover:shadow-soft border border-gray-50 transition duration-300 group">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition duration-300">
+                        <i data-lucide="pen-tool" class="text-accent w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-4 leading-tight">המשפט שלך – עכשיו</h3>
+                    <p class="text-lg text-textSoft leading-relaxed">תצאי מההדרכה עם המשפט האישי והמדויק שלך, מוכן לתרגול מחר בבוקר.</p>
                 </div>
-                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all hover:-translate-y-1">
-                    <i data-lucide="check-square" class="text-rose w-8 h-8 mb-6"></i>
-                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">דוגמאות שמדברות אלייך</h3>
-                    <p class="text-base text-textSoft font-light">משקל, כאבים, יחסים עם ילדים, חרדות, ביטחון עצמי – לכל אחת הדרך שלה.</p>
+
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-card hover:shadow-soft border border-gray-50 transition duration-300 group">
+                    <div class="w-16 h-16 rounded-2xl bg-roseLight flex items-center justify-center mb-6 group-hover:-translate-y-2 transition duration-300">
+                        <i data-lucide="check-square" class="text-rose w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-4 leading-tight">דוגמאות שמדברות אלייך</h3>
+                    <p class="text-lg text-textSoft leading-relaxed">משקל, כאבים, יחסים עם ילדים, חרדות, ביטחון עצמי – לכל התמודדות הדרך שלה.</p>
                 </div>
-                <div class="bg-white p-8 md:p-10 rounded-[28px] shadow-card border border-gray-100 transition-all hover:-translate-y-1">
-                    <i data-lucide="calendar-days" class="text-accent w-8 h-8 mb-6"></i>
-                    <h3 class="text-xl md:text-2xl font-bold text-primary mb-3">שיטה לשלושים יום</h3>
-                    <p class="text-base text-textSoft font-light">תוכנית פשוטה ומעשית שמתאימה לחיים האמיתיים שלנו – חמש דקות שלוש פעמים ביום.</p>
+
+                <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-card hover:shadow-soft border border-gray-50 transition duration-300 group">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition duration-300">
+                        <i data-lucide="calendar-days" class="text-accent w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary mb-4 leading-tight">שיטה לשלושים יום</h3>
+                    <p class="text-lg text-textSoft leading-relaxed">תוכנית פשוטה ומעשית שמתאימה לחיים העמוסים שלנו – רק חמש דקות, שלוש פעמים ביום.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FOR WHOM SECTION -->
-    <section class="py-16 md:py-24 bg-white reveal">
+    <section class="py-20 md:py-32 bg-white reveal">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-2xl md:text-4xl font-bold text-primary mb-12 text-center">למי ההדרכה הזו מתאימה?</h2>
-            <ul class="space-y-4 max-w-2xl mx-auto">
-                <li class="flex gap-4 items-start text-lg text-textSoft">
-                    <i data-lucide="check-circle" class="text-primary w-6 h-6 flex-shrink-0 mt-0.5"></i>
-                    לך – אם הלב כבד לאחרונה ואת מחפשת איך להתייצב מבפנים
-                </li>
-                <li class="flex gap-4 items-start text-lg text-textSoft">
-                    <i data-lucide="check-circle" class="text-primary w-6 h-6 flex-shrink-0 mt-0.5"></i>
-                    לך – אם את בגילאי 45+ ומרגישה שהגוף והנפש מבקשים שינוי אמיתי
-                </li>
-                <li class="flex gap-4 items-start text-lg text-textSoft">
-                    <i data-lucide="check-circle" class="text-primary w-6 h-6 flex-shrink-0 mt-0.5"></i>
-                    לך – אם ניסית לחשוב חיובי והרגשת שאת "אומרת שקר לעצמך"
-                </li>
-                <li class="flex gap-4 items-start text-lg text-textSoft">
-                    <i data-lucide="check-circle" class="text-primary w-6 h-6 flex-shrink-0 mt-0.5"></i>
-                    לך – אם חזרת שוב ושוב לאותם דפוסים ורוצה להבין למה ומה עושים
-                </li>
-                <li class="flex gap-4 items-start text-lg text-textSoft">
-                    <i data-lucide="check-circle" class="text-primary w-6 h-6 flex-shrink-0 mt-0.5"></i>
-                    לך – אם משקל, כאבים או חרדות נמצאים איתך שנים ואת מוכנה לגישה אחרת
-                </li>
-                <li class="flex gap-4 items-start text-lg text-textSoft">
-                    <i data-lucide="check-circle" class="text-primary w-6 h-6 flex-shrink-0 mt-0.5"></i>
-                    לך – אם את מחפשת כלי מעשי ופשוט, מבוסס על חוכמת ישראל ומדע המוח
-                </li>
-            </ul>
+            <h2 class="text-3xl md:text-5xl font-bold text-primary mb-16 text-center leading-tight">למי ההדרכה הזו מתאימה?</h2>
+            
+            <div class="space-y-6 max-w-3xl mx-auto">
+                <div class="flex gap-5 items-center p-4 md:p-6 rounded-2xl hover:bg-bgCream transition duration-200">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="check" class="text-primary w-6 h-6"></i>
+                    </div>
+                    <p class="text-xl text-textDark font-medium">לך – אם הלב כבד לאחרונה ואת מחפשת איך להתייצב מבפנים</p>
+                </div>
+                
+                <div class="flex gap-5 items-center p-4 md:p-6 rounded-2xl hover:bg-bgCream transition duration-200">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="check" class="text-primary w-6 h-6"></i>
+                    </div>
+                    <p class="text-xl text-textDark font-medium">לך – אם את בגילאי 45+ ומרגישה שהגוף והנפש מבקשים שינוי אמיתי</p>
+                </div>
+
+                <div class="flex gap-5 items-center p-4 md:p-6 rounded-2xl hover:bg-bgCream transition duration-200">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="check" class="text-primary w-6 h-6"></i>
+                    </div>
+                    <p class="text-xl text-textDark font-medium">לך – אם ניסית לחשוב חיובי והרגשת שאת "אומרת שקר לעצמך"</p>
+                </div>
+
+                <div class="flex gap-5 items-center p-4 md:p-6 rounded-2xl hover:bg-bgCream transition duration-200">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="check" class="text-primary w-6 h-6"></i>
+                    </div>
+                    <p class="text-xl text-textDark font-medium">לך – אם חזרת שוב ושוב לאותם דפוסים ורוצה להבין למה ומה עושים</p>
+                </div>
+
+                <div class="flex gap-5 items-center p-4 md:p-6 rounded-2xl hover:bg-bgCream transition duration-200">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="check" class="text-primary w-6 h-6"></i>
+                    </div>
+                    <p class="text-xl text-textDark font-medium">לך – אם משקל, כאבים או חרדות נמצאים איתך שנים ואת מוכנה לגישה אחרת</p>
+                </div>
+
+                <div class="flex gap-5 items-center p-4 md:p-6 rounded-2xl hover:bg-bgCream transition duration-200">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="check" class="text-primary w-6 h-6"></i>
+                    </div>
+                    <p class="text-xl text-textDark font-medium">לך – אם את מחפשת כלי מעשי ופשוט, מבוסס על חוכמת ישראל ומדע המוח</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- ABOUT RIVKA -->
-    <section class="py-16 md:py-24 bg-bgCream reveal">
+    <section class="py-20 md:py-32 bg-gradient-to-b from-bgCream to-white reveal">
         <div class="max-w-5xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-20">
-                <div class="w-[280px] h-[280px] md:w-[350px] md:h-[350px] relative flex-shrink-0">
-                    <div class="absolute inset-0 rounded-[40px] border-[10px] border-white shadow-soft overflow-hidden">
-                        <img src="https://raw.githubusercontent.com/rivkaol/quiet-gut/main/profile.jpg.jpg" alt="רבקה הולצברג" class="w-full h-full object-cover" />
+            <div class="flex flex-col lg:flex-row items-center gap-16 md:gap-24">
+                <div class="w-[300px] h-[300px] md:w-[400px] md:h-[400px] relative flex-shrink-0">
+                    <!-- אפקט דקורטיבי מאחורי התמונה -->
+                    <div class="absolute inset-0 bg-accent rounded-[3rem] rotate-6 opacity-20"></div>
+                    <div class="absolute inset-0 rounded-[3rem] border-[12px] border-white shadow-soft overflow-hidden relative z-10">
+                        <img src="https://raw.githubusercontent.com/rivkaol/quiet-gut/main/profile.jpg.jpg" alt="רבקה הולצברג" class="w-full h-full object-cover transition duration-500 hover:scale-105" />
                     </div>
                 </div>
+                
                 <div class="flex-1 text-center md:text-right">
-                    <h2 class="text-3xl font-bold text-primary mb-8">מילה אישית ממני אליך</h2>
-                    <div class="space-y-6 text-xl leading-relaxed text-textSoft font-light">
-                        <p>גם אני ניסיתי פעם לומר לעצמי "אני בטוחה בעצמי, אני בעלת ערך" – ובפנים משהו אמר לי "על מי את עובדת?"</p>
-                        <p>עד שלמדתי את ההבדל בין שינון שקר לבין <strong>משפט גישור</strong> – בין מה שמייצר התנגדות לבין מה שנכנס פנימה בשקט ומשנה.</p>
-                        <p>כשהבנתי את הכלי הזה – הכל השתנה. לא בן לילה. אבל בצורה שנשארה.</p>
+                    <div class="mb-8">
+                        <i data-lucide="quote" class="w-12 h-12 text-rose/40 mb-4 inline-block md:block mx-auto md:mx-0"></i>
+                        <h2 class="text-4xl md:text-5xl font-bold text-primary">מילה אישית ממני אליך</h2>
+                    </div>
+                    
+                    <div class="space-y-6 text-xl md:text-2xl leading-relaxed text-textDark font-light">
+                        <p>גם אני ניסיתי פעם לומר לעצמי <span class="font-medium">"אני בטוחה בעצמי, אני בעלת ערך"</span> – ובפנים משהו אמר לי "על מי את עובדת?"</p>
+                        <p>עד שלמדתי את ההבדל בין שינון שקר לבין <strong>משפט גישור</strong> – בין מה שמייצר התנגדות לבין מה שנכנס פנימה בשקט ומשנה מהיסוד.</p>
+                        <p>כשהבנתי את הכלי הזה – הכל השתנה. לא בן לילה, אבל בצורה עמוקה שנשארה.</p>
                         <p>יותר מ-12 שנה אני מלווה נשים דרך התהליך הזה. ורוצה להעביר לך אותו בצורה הפשוטה, הישירה והמעשית ביותר שיש.</p>
-                        <p class="font-bold text-primary">שלך, רבקה</p>
+                        
+                        <p class="font-bold text-2xl text-primary mt-8 pt-8 border-t border-gray-100">שלך, רבקה</p>
                     </div>
                 </div>
             </div>
@@ -351,49 +460,59 @@
     </section>
 
     <!-- REGISTER OFFER -->
-    <section id="register" class="py-16 md:py-24 bg-primary relative overflow-hidden">
+    <section id="register" class="py-20 md:py-32 bg-primary relative overflow-hidden">
+        <!-- אלמנטים דקורטיביים ברקע -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
+        </div>
+
         <div class="max-w-4xl mx-auto px-5 relative z-10">
-            <div class="text-center text-white mb-12">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">אל תפספסי את ההזדמנות לשנות את הקוד</h2>
-                <p class="text-lg md:text-xl opacity-90">הצטרפי אלינו לערב של גילוי, כלים מעשיים ושקט פנימי</p>
+            <div class="text-center text-white mb-16">
+                <h2 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">אל תפספסי את ההזדמנות לשנות את הקוד</h2>
+                <p class="text-xl md:text-2xl opacity-90 font-light">הצטרפי אלינו לערב של גילוי, כלים מעשיים ושקט פנימי</p>
             </div>
 
-            <div class="max-w-xl mx-auto">
-                <div class="bg-white rounded-[40px] p-6 md:p-12 shadow-2xl border-4 border-accent relative">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-white px-6 py-1.5 rounded-full font-bold text-base">
-                        הכי מומלץ
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-[3rem] p-8 md:p-12 shadow-2xl border-2 border-accent/40 relative transform transition duration-500 hover:scale-[1.01]">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white px-8 py-2 rounded-full font-bold text-lg shadow-md whitespace-nowrap">
+                        המסלול המומלץ
                     </div>
                     
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold text-primary mb-2">מועדון בריאות שבאה מהלב</h3>
-                        <p class="text-sm text-textSoft italic">ההדרכות בסדרה הזו בנויות כמסע – כל שיעור נשען על הקודם</p>
+                    <div class="text-center mb-10">
+                        <h3 class="text-3xl font-bold text-primary mb-3">מועדון בריאות שבאה מהלב</h3>
+                        <p class="text-base text-textSoft">ההדרכות בסדרה הזו בנויות כמסע – כל שיעור נשען על הקודם ומוביל לפריצת דרך</p>
                     </div>
 
-                    <ul class="space-y-3 mb-8 text-base text-textSoft">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="text-accent w-5 h-5 mt-0.5 flex-shrink-0"></i>
-                            <span>כל שיעורי הסדרה – כולל שיעור 5 הזה וכל מה שיבוא אחריו</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="text-accent w-5 h-5 mt-0.5 flex-shrink-0"></i>
-                            <span>2 מפגשים חיים בחודש – בריאות ופיתוח אישי</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="text-accent w-5 h-5 mt-0.5 flex-shrink-0"></i>
-                            <span>וידאו מתכון שבועי – אוכל בריא ומהיר לחיים האמיתיים</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check" class="text-accent w-5 h-5 mt-0.5 flex-shrink-0"></i>
-                            <span>גישה לארכיון – כל ההקלטות הקודמות מיד עם ההצטרפות</span>
-                        </li>
-                    </ul>
+                    <div class="bg-bgCream p-6 rounded-3xl mb-10 border border-gray-100">
+                        <ul class="space-y-4 text-lg text-textDark font-medium">
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="check-circle-2" class="text-accent w-6 h-6 mt-0.5 flex-shrink-0"></i>
+                                <span>כל שיעורי הסדרה – כולל שיעור 5 הזה וכל מה שיבוא אחריו</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="check-circle-2" class="text-accent w-6 h-6 mt-0.5 flex-shrink-0"></i>
+                                <span>2 מפגשים חיים בחודש – בריאות ופיתוח אישי</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="check-circle-2" class="text-accent w-6 h-6 mt-0.5 flex-shrink-0"></i>
+                                <span>וידאו מתכון שבועי – אוכל בריא ומהיר לחיים האמיתיים</span>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i data-lucide="check-circle-2" class="text-accent w-6 h-6 mt-0.5 flex-shrink-0"></i>
+                                <span>גישה לארכיון – כל ההקלטות הקודמות מיד עם ההצטרפות</span>
+                            </li>
+                        </ul>
+                    </div>
 
-                    <div class="text-center mb-8">
-                        <div class="flex items-center justify-center gap-2">
-                            <span class="text-4xl md:text-5xl font-black text-accent">29₪</span>
-                            <span class="text-base text-textSoft">לחודש הראשון</span>
+                    <div class="text-center mb-10">
+                        <div class="flex items-end justify-center gap-2 mb-2">
+                            <span class="text-6xl font-extrabold text-accent leading-none">29₪</span>
+                            <span class="text-xl text-textSoft font-medium pb-1">לחודש הראשון</span>
                         </div>
-                        <p class="text-xs text-textSoft mt-2">לאחר מכן 49₪ לחודש | ביטול בכל עת</p>
+                        <div class="inline-block bg-gray-100 rounded-full px-4 py-1 mt-2">
+                            <p class="text-sm text-textSoft font-medium">לאחר מכן 49₪ לחודש | ביטול קל בכל עת</p>
+                        </div>
                     </div>
 
                     <form id="formBottomCapture" class="space-y-5 text-right">
@@ -401,127 +520,155 @@
                             <input type="text" name="hp_field_check" tabindex="-1" autocomplete="off">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">שם מלא <span class="text-rose font-black">*</span></label>
-                            <input type="text" name="fullName" class="custom-input w-full px-4 py-3.5 text-base" required>
+                            <label class="block text-primary font-semibold text-sm pr-2">שם מלא <span class="text-rose font-bold">*</span></label>
+                            <input type="text" name="fullName" class="custom-input w-full px-5 py-3 text-lg" placeholder="השם שלך" required>
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">כתובת מייל <span class="text-rose font-black">*</span></label>
-                            <input type="email" name="email" class="custom-input w-full px-4 py-3.5 text-base" required>
+                            <label class="block text-primary font-semibold text-sm pr-2">כתובת מייל <span class="text-rose font-bold">*</span></label>
+                            <input type="email" name="email" list="email-options-bottom" class="custom-input w-full px-5 py-3 text-lg" placeholder="your@email.com" dir="ltr" required>
+                            <datalist id="email-options-bottom">
+                                <option value="@gmail.com"></option>
+                                <option value="@walla.co.il"></option>
+                                <option value="@yahoo.com"></option>
+                                <option value="@hotmail.com"></option>
+                                <option value="@outlook.com"></option>
+                            </datalist>
                         </div>
                         <div class="space-y-1.5">
-                            <label class="block text-primary font-bold text-xs md:text-sm pr-1">טלפון נייד <span class="text-rose font-black">*</span></label>
-                            <input type="tel" name="phone" class="custom-input w-full px-4 py-3.5 text-base" required>
+                            <label class="block text-primary font-semibold text-sm pr-2">טלפון נייד <span class="text-rose font-bold">*</span></label>
+                            <input type="tel" name="phone" class="custom-input w-full px-5 py-3 text-lg" placeholder="050-0000000" dir="ltr" required>
                         </div>
-                        <button type="button" onclick="handleSubmit('club', 'formBottomCapture')" class="btn-thick w-full bg-accent hover:bg-[#C5A028] text-white text-xl shadow-gold-btn border-b-4 border-[#A6861F]">
-                            הצטרפי למועדון עכשיו
-                        </button>
+                        <div class="pt-5">
+                            <button type="button" onclick="handleSubmit('club', 'formBottomCapture')" class="btn-thick w-full bg-accent hover:bg-[#C5A028] text-white text-xl shadow-gold-btn border-b-4 border-[#A6861F] group flex items-center justify-center gap-3">
+                                הצטרפי למועדון עכשיו
+                                <i data-lucide="arrow-left" class="w-5 h-5 transition-transform group-hover:-translate-x-1"></i>
+                            </button>
+                        </div>
                     </form>
-                </div>
-
-                <div class="text-center text-white/80 mt-10">
-                    <p class="text-sm mb-2">רוצה רק את ההדרכה הזו?</p>
-                    <button onclick="handleSubmit('workshop', 'formBottomCapture')" class="text-lg md:text-xl font-bold text-accent underline underline-offset-8">רכישה של ההדרכה בלבד – 37₪</button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ SECTION -->
-    <section class="py-16 md:py-24 bg-bgCream reveal">
+    <section class="py-20 md:py-32 bg-bgCream reveal">
         <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-2xl md:text-4xl font-bold text-primary mb-10 text-center">שאלות נפוצות</h2>
-            <div class="space-y-3">
-                <div class="bg-white rounded-2xl border border-gray-100">
-                    <button class="faq-toggle w-full p-5 text-right flex items-center justify-between font-bold text-lg text-primary focus:outline-none">
+            <h2 class="text-3xl md:text-5xl font-bold text-primary mb-12 text-center">שאלות נפוצות</h2>
+            <div class="space-y-4">
+                
+                <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition duration-300">
+                    <button class="faq-toggle w-full p-6 text-right flex items-center justify-between font-bold text-xl text-primary focus:outline-none">
                         האם מקבלים הקלטה?
-                        <i data-lucide="plus" class="text-accent icon-state w-5 h-5"></i>
+                        <div class="bg-roseLight p-2 rounded-full">
+                            <i data-lucide="plus" class="text-rose icon-state w-5 h-5 transition-transform duration-300"></i>
+                        </div>
                     </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="p-5 pt-0 text-textSoft">כן! ההקלטה תישלח למייל תוך 24 שעות מסיום המפגש ונשארת אצלך לתמיד.</div>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0 text-lg text-textSoft leading-relaxed">כן! ההקלטה תישלח למייל תוך 24 שעות מסיום המפגש ונשארת אצלך לתמיד, כך שתוכלי לחזור אליה שוב ושוב.</div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl border border-gray-100">
-                    <button class="faq-toggle w-full p-5 text-right flex items-center justify-between font-bold text-lg text-primary focus:outline-none">
+
+                <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition duration-300">
+                    <button class="faq-toggle w-full p-6 text-right flex items-center justify-between font-bold text-xl text-primary focus:outline-none">
                         האם יהיה זמן לשאלות?
-                        <i data-lucide="plus" class="text-accent icon-state w-5 h-5"></i>
+                        <div class="bg-roseLight p-2 rounded-full">
+                            <i data-lucide="plus" class="text-rose icon-state w-5 h-5 transition-transform duration-300"></i>
+                        </div>
                     </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="p-5 pt-0 text-textSoft">כן, בסיום ההדרכה אקדיש זמן לשאלות אישיות.</div>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0 text-lg text-textSoft leading-relaxed">כן, בסיום ההדרכה אקדיש זמן מיוחד לשאלות אישיות ולדיוקים.</div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl border border-gray-100">
-                    <button class="faq-toggle w-full p-5 text-right flex items-center justify-between font-bold text-lg text-primary focus:outline-none">
+
+                <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition duration-300">
+                    <button class="faq-toggle w-full p-6 text-right flex items-center justify-between font-bold text-xl text-primary focus:outline-none">
                         אני לא מכירה את השיעורים הקודמים – זה בסדר?
-                        <i data-lucide="plus" class="text-accent icon-state w-5 h-5"></i>
+                        <div class="bg-roseLight p-2 rounded-full">
+                            <i data-lucide="plus" class="text-rose icon-state w-5 h-5 transition-transform duration-300"></i>
+                        </div>
                     </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="p-5 pt-0 text-textSoft">בהחלט! ההדרכה עצמאית ומלאה. אסביר את כל הרקע הנדרש.</div>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0 text-lg text-textSoft leading-relaxed">בהחלט! ההדרכה הזו עומדת בפני עצמה והיא מלאה ושלמה. אסביר את כל הרקע הנדרש כדי שתוכלי להפיק את המרב.</div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl border border-gray-100">
-                    <button class="faq-toggle w-full p-5 text-right flex items-center justify-between font-bold text-lg text-primary focus:outline-none">
+
+                <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition duration-300">
+                    <button class="faq-toggle w-full p-6 text-right flex items-center justify-between font-bold text-xl text-primary focus:outline-none">
                         כמה זמן ייקח לראות תוצאות?
-                        <i data-lucide="plus" class="text-accent icon-state w-5 h-5"></i>
+                        <div class="bg-roseLight p-2 rounded-full">
+                            <i data-lucide="plus" class="text-rose icon-state w-5 h-5 transition-transform duration-300"></i>
+                        </div>
                     </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="p-5 pt-0 text-textSoft">אנשים מדווחים שכבר אחרי שלושה עד שבעה ימים המשפט מתחיל לנגן בראש לבד – סימן שזרם המחשבות מתחיל לנוע. שינוי עמוק מתרחש תוך שלושים יום.</div>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0 text-lg text-textSoft leading-relaxed">נשים מדווחות שכבר אחרי שלושה עד שבעה ימים המשפט מתחיל לנגן בראש לבד – סימן שזרם המחשבות מתחיל לנוע. שינוי עמוק ומבוסס מתרחש בדרך כלל תוך שלושים יום של התמדה קלה.</div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl border border-gray-100">
-                    <button class="faq-toggle w-full p-5 text-right flex items-center justify-between font-bold text-lg text-primary focus:outline-none">
+
+                <div class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition duration-300">
+                    <button class="faq-toggle w-full p-6 text-right flex items-center justify-between font-bold text-xl text-primary focus:outline-none">
                         למי ההדרכה הכי מתאימה?
-                        <i data-lucide="plus" class="text-accent icon-state w-5 h-5"></i>
+                        <div class="bg-roseLight p-2 rounded-full">
+                            <i data-lucide="plus" class="text-rose icon-state w-5 h-5 transition-transform duration-300"></i>
+                        </div>
                     </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="p-5 pt-0 text-textSoft">לנשים בגילאי 45+ שמרגישות תקיעות בנושאי משקל, בריאות, קשרים עם ילדים, חרדות או דפוסים חוזרים.</div>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="p-6 pt-0 text-lg text-textSoft leading-relaxed">לנשים בגילאי 45+ שמרגישות תקיעות בנושאי משקל, בריאות, קשרים עם ילדים, חרדות או דפוסים חוזרים ומוכנות לעשות שינוי אמיתי מהשורש.</div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
     <!-- FOOTER CTA -->
-    <div class="py-16 bg-bgCream text-center border-t border-roseLight reveal">
-        <h2 class="text-2xl md:text-3xl font-bold text-primary mb-8">הגיע הזמן לתכנת את ה-GPS מחדש</h2>
-        <p class="text-lg text-textSoft max-w-2xl mx-auto mb-10 px-6 font-light">
-            יש לך כוח שאת לא יודעת שיש לך. תת-ההכרה שלך מחכה לציווי החדש. בואי נכתוב אותו ביחד – גם כשקשה בחוץ, ואולי דווקא אז.
+    <div class="py-24 bg-white text-center border-t border-gray-100 reveal">
+        <h2 class="text-3xl md:text-5xl font-bold text-primary mb-8">הגיע הזמן לתכנת את ה-GPS מחדש</h2>
+        <p class="text-xl text-textSoft max-w-3xl mx-auto mb-12 px-6 font-medium leading-relaxed">
+            יש לך כוח שאת לא יודעת שיש לך. תת-ההכרה שלך מחכה לציווי החדש.<br class="hidden md:block" /> בואי נכתוב אותו ביחד – גם כשקשה בחוץ, ואולי דווקא אז.
         </p>
-        <button onclick="document.getElementById('capture-form').scrollIntoView({behavior: 'smooth'})" class="btn-thick inline-block bg-primary text-white px-10 py-4 text-2xl shadow-primary-btn border-b-4 border-[#0F352B]">
+        <button onclick="document.getElementById('capture-form').scrollIntoView({behavior: 'smooth'})" class="btn-thick inline-flex items-center justify-center gap-3 bg-primary text-white px-8 py-3.5 text-xl shadow-primary-btn border-b-4 border-[#0F352B] group">
             הצטרפי למועדון בריאות שבאה מהלב
+            <i data-lucide="arrow-up" class="w-5 h-5 transition-transform group-hover:-translate-y-1"></i>
         </button>
-        <p class="mt-8 text-rose font-medium">מצטרפות יחד לחיים חדשים</p>
+        <p class="mt-8 text-rose text-lg font-bold">מצטרפות יחד לחיים חדשים</p>
     </div>
 
     <!-- LEGAL FOOTER -->
-    <footer class="w-full text-center py-8 bg-white border-t border-gray-100 text-xs text-textSoft">
+    <footer class="w-full text-center py-10 bg-bgCream border-t border-gray-200 text-sm text-textSoft">
         <script src="https://rivkaol.github.io/legal-footer.js"></script>
     </footer>
 
     <script>
+        // אתחול האייקונים
         lucide.createIcons();
 
+        // אנימציית גלילה לחשיפת אלמנטים
         function handleScroll() {
             const reveals = document.querySelectorAll(".reveal");
             reveals.forEach(reveal => {
                 const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < window.innerHeight - 50) {
+                if (elementTop < window.innerHeight - 80) {
                     reveal.classList.add("active");
                 }
             });
         }
         window.addEventListener("scroll", handleScroll);
         window.addEventListener("touchmove", handleScroll);
-        handleScroll();
+        // קריאה ראשונית בעת טעינת הדף
+        setTimeout(handleScroll, 100);
 
+        // פתיחה וסגירה של שאלות נפוצות (FAQ) אקורדיון
         document.querySelectorAll('.faq-toggle').forEach(button => {
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
                 const icon = button.querySelector('.icon-state');
                 const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
                 
+                // סגירת כל שאר השאלות
                 document.querySelectorAll('.faq-content').forEach(c => c.style.maxHeight = '0px');
                 document.querySelectorAll('.icon-state').forEach(i => i.style.transform = 'rotate(0deg)');
 
+                // פתיחת השאלה הנוכחית אם היא סגורה
                 if (!isOpen) {
                     content.style.maxHeight = content.scrollHeight + "px";
                     icon.style.transform = 'rotate(45deg)';
@@ -529,25 +676,26 @@
             });
         });
 
+        // טיפול בשליחת הטפסים
         async function handleSubmit(type, formId = 'formLeadCapture') {
             const form = document.getElementById(formId);
             
+            // מלכודת דבש נגד בוטים
             if (form.elements['hp_field_check'].value !== "") return;
 
+            // בדיקת תקינות הדפדפן (שדות חובה)
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
             }
 
-            const btn = (formId === 'formLeadCapture') ? 
-                document.querySelector(`#${formId} button`) : 
-                (type === 'club' ? document.querySelector(`#${formId} button`) : null);
-            
+            const btn = document.querySelector(`#${formId} button`);
             const originalContent = btn ? btn.innerHTML : "שולח...";
             
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = 'מייד עוברים...';
+                btn.innerHTML = '<span class="animate-pulse">מייד עוברים...</span>';
+                btn.style.opacity = '0.8';
             }
 
             const formData = new FormData(form);
@@ -557,6 +705,7 @@
             data.timestamp = new Date().toISOString();
 
             try {
+                // שליחת הליד למערכת
                 await fetch('https://hook.eu2.make.com/zberyxwhc59fes387ia7exw392wlwele', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -564,16 +713,17 @@
                 });
 
                 if (type === 'club') {
-                    window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=6164e594-5dbf-42f0-919f-de27dae35618';
-                } else {
-                    window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=b93cc575-6cbb-4e39-a511-4c3183c4c000';
+                    // עדכן את הכתובת כאן במידה והיא השתנתה
+                    window.location.href = 'https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?Code=YOUR_CODE_HERE'; 
                 }
             } catch (error) {
-                alert('אירעה שגיאה קלה בחיבור. נא לנסות שוב.');
+                console.error('Error submitting form:', error);
                 if (btn) {
-                    btn.disabled = false;
                     btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
                 }
+                alert('אירעה שגיאה קטנה בתקשורת. אנא נסי ללחוץ שוב.');
             }
         }
     </script>
